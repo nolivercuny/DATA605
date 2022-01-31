@@ -41,6 +41,7 @@ Use a loop that changes the transformation matrix incrementally to demonstrate
 Hint:  Use x11() to open a new plotting window in R.
 Upload your document as a .RMD file.  I will know if your assignment is correct if the animation runs. correctly
 
+example
 ```{r}
 x=c(rep(0,500),seq(0,1,length.out=1000), rep(1,500))
 y=c(seq(-1,1,length.out=500),rep(0,1000), seq(-1,1,length.out=500))
@@ -48,16 +49,21 @@ z=rbind(x,y)
 plot(y~x, xlim=c(-3,3), ylim=c(-3,3))
 ```
 
+Initials of name
 ```{r}
-x=c(rep(0,500),seq(0,.25,length.out=500),rep(.25,500),seq(.25,.5,length.out=500),rep(.5,500))
-y=c(seq(0,1,length.out=500),rep(1,500),seq(0,1,length.out=500),rep(0,500),seq(0,1,length.out=500))
+x=c(rep(0,500),seq(0,.25,length.out=500),rep(.25,500),seq(.25,.5,length.out=500),rep(.5,500),rep(1,500),seq(1,1.5,length.out=500),rep(1.5,500),seq(1,1.5,length.out=500))
+y=c(seq(0,1,length.out=500),rep(1,500),seq(0,1,length.out=500),rep(0,500),seq(0,1,length.out=500),seq(0,1,length.out=500),rep(1,500),seq(0,1,length.out=500),rep(0,500))
 z=rbind(x,y)
-plot(y~x, xlim=c(0,3), ylim=c(0,3))
-```
 
-```{r}
-x=c(rep(0,500),seq(0,.5,length.out=500),rep(.5,500),seq(0,.5,length.out=500))
-y=c(seq(0,1,length.out=500),rep(1,500),seq(0,1,length.out=500),rep(0,500))
-z=rbind(x,y)
+
 plot(y~x, xlim=c(0,3), ylim=c(0,3))
+
+```
+sheer
+```{r}
+z=rbind(x,y)
+ident <- diag(2)
+ident[1,2] <- .5
+ z<- ident %*% z
+plot(z[2,]~z[1,], xlim=c(0,3), ylim=c(0,3))
 ```
