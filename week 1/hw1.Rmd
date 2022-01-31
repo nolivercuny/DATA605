@@ -27,6 +27,7 @@ y=c(seq(-1,1,length.out=500),rep(0,1000), seq(-1,1,length.out=500))
 z=rbind(x,y)
 plot(y~x, xlim=c(-3,3), ylim=c(-3,3))
 ```
+
 Then, write R code that will left multiply (%>%) a square matrix (x) against each of the vectors of points (y). 
 
 Initially, that square matrix will be the Identity matrix.  
@@ -41,7 +42,7 @@ Use a loop that changes the transformation matrix incrementally to demonstrate
 Hint:  Use x11() to open a new plotting window in R.
 Upload your document as a .RMD file.  I will know if your assignment is correct if the animation runs. correctly
 
-example
+## example
 ```{r}
 x=c(rep(0,500),seq(0,1,length.out=1000), rep(1,500))
 y=c(seq(-1,1,length.out=500),rep(0,1000), seq(-1,1,length.out=500))
@@ -49,21 +50,87 @@ z=rbind(x,y)
 plot(y~x, xlim=c(-3,3), ylim=c(-3,3))
 ```
 
-Initials of name
+## Initials of name
 ```{r}
 x=c(rep(0,500),seq(0,.25,length.out=500),rep(.25,500),seq(.25,.5,length.out=500),rep(.5,500),rep(1,500),seq(1,1.5,length.out=500),rep(1.5,500),seq(1,1.5,length.out=500))
 y=c(seq(0,1,length.out=500),rep(1,500),seq(0,1,length.out=500),rep(0,500),seq(0,1,length.out=500),seq(0,1,length.out=500),rep(1,500),seq(0,1,length.out=500),rep(0,500))
 z=rbind(x,y)
 
 
-plot(y~x, xlim=c(0,3), ylim=c(0,3))
+plot(y~x, xlim=c(-3,3), ylim=c(-3,3))
 
 ```
-sheer
+
+## sheer
+
 ```{r}
 z=rbind(x,y)
 ident <- diag(2)
 ident[1,2] <- .5
  z<- ident %*% z
-plot(z[2,]~z[1,], xlim=c(0,3), ylim=c(0,3))
+plot(z[2,]~z[1,], xlim=c(-3,3), ylim=c(-3,3))
+```
+
+## scaling
+
+```{r}
+z=rbind(x,y)
+ident <- diag(2)
+ident[1,1] <- .5
+ident[2,2] <- 2
+ z<- ident %*% z
+plot(z[2,]~z[1,], xlim=c(-3,3), ylim=c(-3,3))
+```
+
+## rotation
+
+```{r}
+z=rbind(x,y)
+ident <- diag(2)
+ident[1,1] <- -1
+ident[2,2] <- -1
+ z<- ident %*% z
+plot(z[2,]~z[1,], xlim=c(-3,3), ylim=c(-3,3))
+```
+
+## projection
+
+```{r}
+z=rbind(x,y)
+ident <- diag(2)
+ident[2,2] <- 0
+ z<- ident %*% z
+plot(z[2,]~z[1,], xlim=c(-3,3), ylim=c(-3,3))
+```
+
+## Animation
+
+```{r}
+for (step in seq(0,4)) {
+  z=rbind(x,y)
+  if(step == 1){ #shear
+    ident <- diag(2)
+    ident[1,2] <- .5
+    z <- ident %*% z
+  }
+  else if(step == 2){ #scale
+    ident <- diag(2)
+    ident[1,1] <- .5
+    ident[2,2] <- 2
+    z <- ident %*% z
+  }
+  else if(step == 3){ #rotate
+    ident <- diag(2)
+    ident[1,1] <- -1
+    z <- ident %*% z
+  }
+  else if(step == 4){ #project
+    ident <- diag(2)
+    ident[2,2] <- 0
+    z<- ident %*% z
+  }
+  
+  plot(z[2,]~z[1,], xlim=c(-3,3), ylim=c(-3,3))
+  Sys.sleep(1)
+}
 ```
