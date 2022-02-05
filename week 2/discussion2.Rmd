@@ -1,0 +1,64 @@
+---
+---
+
+C36 Page 329
+
+Find the rank and nullity of the matrix 
+\[
+A =
+\begin{bmatrix}
+1 & 2 & 1 & 1 & 1\\
+1 &3&2&0&4 \\
+1&2&1&1&1
+\end{bmatrix}
+\]
+
+Finding rank, you convert the matrix to row echelon form and count the number of non-zero rows (rows that don't have all zeroes in them). Rank = count of non-zero rows in reduced row echelon form
+
+```{r}
+r1 <- c(1,2,1,1,1)
+r2 <- c(1,3,2,0,4)
+r3 <- c(1,2,1,1,1)
+pracma::rref(matrix(c(r1,r2,r3),3,5,byrow = TRUE))
+```
+
+Rank = 2
+
+Nullity = Null(A) = 3 - 2 = 1
+
+
+```{r}
+one <-c(1,0,1,1)
+two <- c(2,2, -1, 1)
+three<-c(2,1,3,0)
+four <- c(1,1,0,1)
+a <- matrix(c(one,two,three,four),4,4,byrow = TRUE)
+a
+det(a)
+
+```
+
+firstrow 1,0,1,1
+
++1 *2 -1 1
+   1 3 0
+   1 0 1
+   
+   1 * [-1 1]
+       [3 0]
+  -0 2 1
+    1 1
+  +1 2 -1
+    1 3
+   
+-0 * 2 -1 1
+    2 3 0
+    1 0 1
+    
++1 * 2 2 1
+    2 1 0
+    1 1 0
+    
+-1 * 2 2 -1
+    2 1 3
+    1 1 0
