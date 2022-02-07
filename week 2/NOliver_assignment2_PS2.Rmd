@@ -18,36 +18,60 @@ editor_options:
 could this be true? (Hint: The Identity matrix I is an example of such a matrix).
 Please typeset your response using LaTeX mode in RStudio. 
 
+### (1)
+
 \[
 A =
 \begin{bmatrix}
-1&2&3\\4&5&6
+0&1\\0&1
 \end{bmatrix}
 \\
-A^T = \begin{bmatrix}
-1&4\\2&5\\3&6
+A^T = 
+\begin{bmatrix}
+0&0\\1&1
 \end{bmatrix}
+\\
+A * A^T =  \begin{bmatrix}
+1&1\\1&1
+\end{bmatrix}
+\\
+A^T * A =  \begin{bmatrix}
+0&0\\0&2
+\end{bmatrix}
+\\
+A * A^T \neq A^T * A
 \]
-Hint: take the transposes of 𝐴𝐴𝑇 and 𝐴𝑇𝐴. Use what you know about the transpose to show (𝐴𝐴𝑇)𝑇=𝐴𝐴𝑇, and (𝐴𝑇𝐴)𝑇=𝐴𝑇𝐴
-
-In particular, if you are still struggling:
-
-(𝐴𝐴𝑇)𝑇=(𝐴𝑇)𝑇𝐴𝑇=𝐴𝐴𝑇
-Can you do the second?
 ```{r}
-A = matrix(c(1,2,3,4,5,6,7,8,9), byrow = TRUE, nrow = 3)
+A = matrix(c(0,1,0,1), byrow = TRUE, nrow = 2)
 A
 tA = t(A)
 tA
 
-A * tA
-tA * A
-
-
-A = diag(2)
-A
-t(A)
+A %*% tA
+tA %*% A
 ```
+
+### (2)
+
+A "diagonal" matrix follows the property \[A*A^T = A^T * A\] A diagonal matrix is a square matrix with 0s outside of the main diagonal. The identity matrix is a trivial example of a diagonal matrix.
+
+
+
+
+
+\[
+A = \begin{bmatrix}6&0&0\\0&2&0\\0&0&4\end{bmatrix}
+\\
+A^T = \begin{bmatrix}6&0&0\\0&2&0\\0&0&4\end{bmatrix}
+\\
+A * A ^ T = \begin{bmatrix}36&0&0\\0&4&0\\0&0&16\end{bmatrix}
+\\
+A^T * A = \begin{bmatrix}36&0&0\\0&4&0\\0&0&16\end{bmatrix}
+\\
+A * A^T = A^T * A
+\]
+
+
 
 ## Problem set 2
 
@@ -56,32 +80,34 @@ Matrix factorization is a very important problem. There are supercomputers built
 Write an R function to factorize a square matrix A into LU or LDU, whichever you prefer. 
 You don’t have to worry about permuting rows of A and you can assume that A is less than 5x5, if you need to hard-code any variables in your code. If you doing the entire assignment in R, then please submit only one markdown document for both the problems.
 
+### Function Definition
 ```{r}
 #Doolittle Algorithm
 factorizeIntoLU <- function(A) {
-  n <- dim(A)[1] #assuming square matrix
+  size <- dim(A)[1] #assuming square matrix
   
-  L <- diag(0,n)
-  U <- diag(0,n)
+  L <- diag(0,size)
+  U <- diag(0,size)
 
-  for (i in seq(1,n)) {
-		for (k in seq(i, n)) {
-			sum <- 0;
+  for (i in seq(1,size)) {
+    for (k in seq(i, size)) {
+			acc <- 0;
 			for (j in seq(1,i)) {
-				sum <- sum + (L[i, j] * U[j, k]);
+				acc <- acc + (L[i, j] * U[j, k]);
 			}
-			U[i, k] <- A[i, k] - sum;
+			U[i, k] <- A[i, k] - acc;
 		}
-		for (k in seq(i,n)){
+    
+		for (k in seq(i,size)){
 			if (i == k){
 				L[i, i] <- 1
 			}
 			else {
-				sum <- 0;
+				acc <- 0;
 				for (j in seq(1,i)){
-					sum <- sum + (L[k, j] * U[j, i]);
+					acc <- acc + (L[k, j] * U[j, i]);
 				}
-				L[k, i] <- (A[k, i] - sum) / U[i, i];
+				L[k, i] <- (A[k, i] - acc) / U[i, i];
 			}
 		}
   }
@@ -90,14 +116,27 @@ print(L)
 print('U')
 print(U)
 }
-A <- matrix(c(2,-1,-2,-4,6,3,-4-2,8),nrow = 3, byrow=TRUE)
+```
+
+#### Test Case 1
+```{r}
+
+A <- matrix(c(1,2,4,3,8,14,2,6,13),nrow = 3, byrow=TRUE)
 A
 factorizeIntoLU(A)
+```
+#### Comparison With Library (1)
+```{r}
 matrixcalc::lu.decomposition(A)
+```
+#### Test Case 2
+```{r}
 A <- matrix(c(1,4,-3,-2,8,5,3,4,7),nrow = 3, byrow=TRUE)
 A
 factorizeIntoLU(A)
-
+```
+#### Comparison With Library (2)
+```{r}
 matrixcalc::lu.decomposition(A)
 
 ```
