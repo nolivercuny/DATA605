@@ -9,33 +9,27 @@ editor_options:
   chunk_output_type: console
 ---
 
-# C24† Find the eigenvalues, eigenspaces, algebraic and geometric multiplicities for 
-
+**C24† Find the eigenvalues, eigenspaces, algebraic and geometric multiplicities for**
 \[A = \begin{bmatrix}
 1&−1&1\\
 −1&1&−1\\
 1&−1&1
 \end{bmatrix}
 \]
-
+**Eigenvalues**
 \[
 \lambda I_3 = \begin{bmatrix}
 \lambda&0&0\\
 0&\lambda&0\\
 0&0&\lambda
-\end{bmatrix}
-\]
-
-\[
-\lambda I_3 - A = \begin{bmatrix}
+\end{bmatrix} \rightarrow \lambda I_3 - A = \begin{bmatrix}
 \lambda-1&1&-1\\
 1&\lambda -1&1\\
 -1&1&\lambda-1
 \end{bmatrix}
 \]
 
-Apply rule of Sarrus
-
+**Apply rule of Sarrus**
 \[
 \lambda I_3 - A = \begin{bmatrix}
 \lambda-1&1&-1\\
@@ -47,28 +41,58 @@ Apply rule of Sarrus
 1&\lambda-1\\
 -1 &1
 \end{matrix}
+\\
+(\lambda -1)(\lambda-1)(\lambda-1) +
+(1)(1)(-1) +
+(-1)(1)(1) - 
+(1)(1)(\lambda-1) -
+(\lambda-1)(1)(1) - 
+(-1)(\lambda-1)(-1) 
 \]
-
-\[(\lambda -1)(\lambda-1)(\lambda-1) +\\ 
-(1)(1)(-1) +\\
-(-1)(1)(1) - \\
-(1)(1)(\lambda-1) -\\
-(\lambda-1)(1)(1) - \\
-(-1)(\lambda-1)(-1)
-\]
-
+Simplified and set equal to 0
 \[
-1 + (-1 + \lambda)^3 - 3\lambda = 0\\
+1 + (-1 + \lambda)^3 - 3\lambda = 0  \\
+\]
+Solving for 0 yields a 3
+\[
 1 + (-1 + 3)^3 -3*3 = 0 \\
-\lambda = 3\\
+\lambda = 3
+\]
+As well as a 0
+\[
+\\
 1 + (-1 + 0)^3 -3*0 = 0\\
 \lambda = 0
 \]
-
-
 
 ```{r}
 A = matrix(c(1,-1,1,-1,1,-1,1,-1,1),nrow = 3,byrow=TRUE)
 A
 eigen(A)
 ```
+
+**Eigenspaces**
+
+\[A = \begin{bmatrix}
+1&−1&1\\
+−1&1&−1\\
+1&−1&1
+\end{bmatrix}
+\]
+
+1 * -1 * 1 = -1
+-1 * 1 * -1 = 1
+1 * -1 * 1 = -1
+
+\[
+\begin{bmatrix}
+-1&1&-1\\0&0&0\\0&0&0
+\end{bmatrix}
+\begin{bmatrix}
+v_1\\v_2\\v_3
+\end{bmatrix}
+=
+\begin{bmatrix}
+0\\0\\0
+\end{bmatrix}
+\]
