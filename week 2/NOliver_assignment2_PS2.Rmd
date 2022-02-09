@@ -2,9 +2,9 @@
 title: "DATA605 - Assignment 2"
 author: "Nick Oliver"
 output:
-  prettydoc::html_pretty:
-    theme: hpstr
-    highlight: github
+  pdf_document:
+    latex_engine: xelatex
+    extra_dependencies: ["geometry", "multicol", "multirow"]
 editor_options: 
   chunk_output_type: console
 ---

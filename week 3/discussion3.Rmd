@@ -1,0 +1,74 @@
+---
+title: "DATA605 - Disc 3"
+author: "Nick Oliver"
+output:
+  prettydoc::html_pretty:
+    theme: hpstr
+    highlight: github
+editor_options: 
+  chunk_output_type: console
+---
+
+# C24† Find the eigenvalues, eigenspaces, algebraic and geometric multiplicities for 
+
+\[A = \begin{bmatrix}
+1&−1&1\\
+−1&1&−1\\
+1&−1&1
+\end{bmatrix}
+\]
+
+\[
+\lambda I_3 = \begin{bmatrix}
+\lambda&0&0\\
+0&\lambda&0\\
+0&0&\lambda
+\end{bmatrix}
+\]
+
+\[
+\lambda I_3 - A = \begin{bmatrix}
+\lambda-1&1&-1\\
+1&\lambda -1&1\\
+-1&1&\lambda-1
+\end{bmatrix}
+\]
+
+Apply rule of Sarrus
+
+\[
+\lambda I_3 - A = \begin{bmatrix}
+\lambda-1&1&-1\\
+1&\lambda -1&1\\
+-1&1&\lambda-1
+\end{bmatrix}
+\begin{matrix}
+\lambda-1&1\\
+1&\lambda-1\\
+-1 &1
+\end{matrix}
+\]
+
+\[(\lambda -1)(\lambda-1)(\lambda-1) +\\ 
+(1)(1)(-1) +\\
+(-1)(1)(1) - \\
+(1)(1)(\lambda-1) -\\
+(\lambda-1)(1)(1) - \\
+(-1)(\lambda-1)(-1)
+\]
+
+\[
+1 + (-1 + \lambda)^3 - 3\lambda = 0\\
+1 + (-1 + 3)^3 -3*3 = 0 \\
+\lambda = 3\\
+1 + (-1 + 0)^3 -3*0 = 0\\
+\lambda = 0
+\]
+
+
+
+```{r}
+A = matrix(c(1,-1,1,-1,1,-1,1,-1,1),nrow = 3,byrow=TRUE)
+A
+eigen(A)
+```

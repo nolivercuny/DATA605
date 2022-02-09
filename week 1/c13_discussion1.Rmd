@@ -1,0 +1,26 @@
+---
+title: "DATA605 - Discussion 1 - Problem C13"
+author: "Nick Oliver"
+output:
+  prettydoc::html_pretty:
+    theme: hpstr
+    highlight: github
+editor_options: 
+  chunk_output_type: console
+---
+# C13
+\[
+x_1 + 2x_2 + 8x_3 − 7x_4 = −2\\
+3x_1 +2x_2 +12x_3 −5x_4 = 6\\
+−x_1 +x_2 +x_3 −5x_4 = −10
+\]
+
+```{r}
+one <- c(1,2,8,-7,-2)
+two <- c(3,2,12,-5,6)
+three <- c(-1,1,1,-5,-10)
+pracma::rref(matrix(c(one,two,three),3,5,byrow = TRUE))
+
+```
+
+\[Solution = \emptyset\]
