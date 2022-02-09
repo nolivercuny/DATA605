@@ -22,7 +22,9 @@ editor_options:
 \lambda&0&0\\
 0&\lambda&0\\
 0&0&\lambda
-\end{bmatrix} \rightarrow \lambda I_3 - A = \begin{bmatrix}
+\end{bmatrix} \rightarrow 
+
+\lambda I_3 - A = \begin{bmatrix}
 \lambda-1&1&-1\\
 1&\lambda -1&1\\
 -1&1&\lambda-1
@@ -78,15 +80,52 @@ eigen(A)
 −1&1&−1\\
 1&−1&1
 \end{bmatrix}
+\\
+1 * -1 * 1 = -1 \\
+-1 * 1 * -1 = 1 \\
+1 * -1 * 1 = -1 \\
 \]
 
-1 * -1 * 1 = -1
--1 * 1 * -1 = 1
-1 * -1 * 1 = -1
+\[
+\lambda = 0
+\]
 
 \[
 \begin{bmatrix}
--1&1&-1\\0&0&0\\0&0&0
+-1&1&-1\\
+1&-1&1\\
+-1&1&-1
+\end{bmatrix} \rightarrow
+\begin{bmatrix}
+1&-1&1\\0&0&0\\0&0&0
+\end{bmatrix}
+\begin{bmatrix}
+v_1\\v_2\\v_3
+\end{bmatrix}
+=
+\begin{bmatrix}
+0\\0\\0
+\end{bmatrix}
+\]
+\[
+v_1-v_2 +v_3 = 0 \rightarrow
+-v_1 = -v_2 + v_3 \rightarrow
+v_1 = v_2 - v_3 
+\]
+
+\[
+E_{\lambda=3} = \begin{bmatrix}v_1\\v_2\\v_3\end{bmatrix} = a \begin{bmatrix}1\\1\\0\end{bmatrix} + b \begin{bmatrix}1\\0\\-1\end{bmatrix}
+\]
+
+\[
+\lambda = 3\\
+\lambda I_3 - A = \begin{bmatrix}
+2&1&-1\\
+1&2&1\\
+-1&1&2
+\end{bmatrix} \xrightarrow{\text{RREF}}
+\begin{bmatrix}
+1&0&-1\\0&1&1\\0&0&0
 \end{bmatrix}
 \begin{bmatrix}
 v_1\\v_2\\v_3
