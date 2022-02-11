@@ -129,5 +129,15 @@ Apply rule of Sarrus
 \[
 (\lambda-1 )(\lambda-4)(\lambda-6) + (-2)(-5)(0) + (-3)(0)(0) - (-2)(0)(\lambda-6) - (\lambda-1)(-5)(0) - (-3)(\lambda-4)(0)
 \]
+Everything drops out except the first terms
+\[
+(\lambda-1 )(\lambda-4)(\lambda-6)
+\]
+This leaves us with three eigenvalues 
+\[\lambda = 1\\\lambda = 4 \\ \lambda = 6\]
 
-(3) Please show your work using an R-markdown document. Please name your assignment submission with your first initial and last name.
+```{r}
+A = matrix(c(1,2,3,0,4,5,0,0,6),nrow=3,byrow=TRUE)
+A
+eigen(A)
+```
