@@ -134,10 +134,41 @@ Everything drops out except the first terms
 (\lambda-1 )(\lambda-4)(\lambda-6)
 \]
 This leaves us with three eigenvalues 
-\[\lambda = 1\\\lambda = 4 \\ \lambda = 6\]
+$$\lambda = 1$$
+$$\lambda = 4$$
+$$\lambda = 6$$
 
+
+Eigenvector for $$\lambda = 1$$
+
+Plug value in for lambda
+
+$$
+
+\lambda{I_{3}} - A = 
+\begin{bmatrix}
+0 & -2 & -3 \\
+0 & -3 & -5 \\
+0 & 0 & -5
+\end{bmatrix} \xrightarrow{RREF} 
+\begin{bmatrix}
+0 & 1 & 0 \\
+0 & 0 & 1 \\
+0 & 0 & 0
+\end{bmatrix}
+\begin{bmatrix}
+v_1\\v_2\\v_3
+\end{bmatrix} =
+\begin{bmatrix}
+0\\0\\0
+\end{bmatrix}
+$$
 ```{r}
 A = matrix(c(1,2,3,0,4,5,0,0,6),nrow=3,byrow=TRUE)
 A
 eigen(A)
+
+B = matrix(c(0,-2,-3,0,-3,-5,0,0,-5),nrow=3,byrow=TRUE)
+B
+pracma::rref(B)
 ```
