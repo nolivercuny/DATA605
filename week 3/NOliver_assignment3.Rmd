@@ -96,4 +96,38 @@ A = \begin{bmatrix}
 0&0&6
 \end{bmatrix}
 \]
+
+\[
+\lambda{I_{3}} = \begin{bmatrix}\lambda&0&0\\0&\lambda&0\\0&0&\lambda\end{bmatrix}
+\]
+
+\[
+\lambda{I_{3}} - A = 
+\begin{bmatrix}
+\lambda-1 & -2 & -3 \\
+0 & \lambda-4 & -5 \\
+0 & 0 & \lambda-6
+\end{bmatrix}
+\]
+
+Apply rule of Sarrus
+
+\[
+\lambda{I_{3}} - A = 
+\begin{bmatrix}
+\lambda-1 & -2 & -3 \\
+0 & \lambda-4 & -5 \\
+0 & 0 & \lambda-6
+\end{bmatrix}
+\begin{matrix}
+\lambda-1 & -2 \\
+0 & \lambda-4 \\
+0 & 0
+\end{matrix}
+\]
+
+\[
+(\lambda-1 )(\lambda-4)(\lambda-6) + (-2)(-5)(0) + (-3)(0)(0) - (-2)(0)(\lambda-6) - (\lambda-1)(-5)(0) - (-3)(\lambda-4)(0)
+\]
+
 (3) Please show your work using an R-markdown document. Please name your assignment submission with your first initial and last name.
