@@ -89,30 +89,30 @@ Matrix::rankMatrix(B)
 2. Problem set 2
 Compute the eigenvalues and eigenvectors of the matrix A. You’ll need to show your work. You’ll need to write out the characteristic polynomial and show your solution.
 
-\[
+$$
 A = \begin{bmatrix}
 1&2&3\\
 0&4&5\\
 0&0&6
 \end{bmatrix}
-\]
+$$
 
 \[
 \lambda{I_{3}} = \begin{bmatrix}\lambda&0&0\\0&\lambda&0\\0&0&\lambda\end{bmatrix}
 \]
 
-\[
+$$
 \lambda{I_{3}} - A = 
 \begin{bmatrix}
 \lambda-1 & -2 & -3 \\
 0 & \lambda-4 & -5 \\
 0 & 0 & \lambda-6
 \end{bmatrix}
-\]
+$$
 
 Apply rule of Sarrus
 
-\[
+$$
 \lambda{I_{3}} - A = 
 \begin{bmatrix}
 \lambda-1 & -2 & -3 \\
@@ -124,15 +124,15 @@ Apply rule of Sarrus
 0 & \lambda-4 \\
 0 & 0
 \end{matrix}
-\]
+$$
 
-\[
+$$
 (\lambda-1 )(\lambda-4)(\lambda-6) + (-2)(-5)(0) + (-3)(0)(0) - (-2)(0)(\lambda-6) - (\lambda-1)(-5)(0) - (-3)(\lambda-4)(0)
-\]
+$$
 Everything drops out except the first terms
-\[
+$$
 (\lambda-1 )(\lambda-4)(\lambda-6)
-\]
+$$
 This leaves us with three eigenvalues 
 $$\lambda = 1$$
 $$\lambda = 4$$
@@ -162,6 +162,73 @@ v_1\\v_2\\v_3
 \begin{bmatrix}
 0\\0\\0
 \end{bmatrix}
+\\
+v_1 = t\\
+v_2 = 0\\
+v_3 = 0
+\\
+E_1 = t \begin{bmatrix}1\\0\\0\end{bmatrix}
+$$
+
+---
+Eigenvector for $$\lambda = 4$$
+
+Plug value in for lambda
+
+$$
+
+\lambda{I_{3}} - A = 
+\begin{bmatrix}
+3 & -2 & -3 \\
+0 & 0 & -5 \\
+0 & 0 & 2
+\end{bmatrix} \xrightarrow{RREF} 
+\begin{bmatrix}
+1 & 2/3 & 0 \\
+0 & 0 & 1 \\
+0 & 0 & 0
+\end{bmatrix}
+\begin{bmatrix}
+v_1\\v_2\\v_3
+\end{bmatrix} =
+\begin{bmatrix}
+0\\0\\0
+\end{bmatrix}
+\\
+v_1 + 2/3v_2 = 0 \\
+v_3 = 0
+$$
+
+---
+
+Eigenvector for $$\lambda = 6$$
+
+Plug value in for lambda
+
+$$
+\lambda{I_{3}} - A = 
+\begin{bmatrix}
+5 & -2 & -3 \\
+0 & 2 & -5 \\
+0 & 0 & 0
+\end{bmatrix} \xrightarrow{RREF} 
+\begin{bmatrix}
+1 & 0 & -1.6 \\
+0 & 1 & -2.5 \\
+0 & 0 & 0
+\end{bmatrix}
+\begin{bmatrix}
+v_1\\v_2\\v_3
+\end{bmatrix} =
+\begin{bmatrix}
+0\\0\\0
+\end{bmatrix}
+\\
+v_1 - 1.6v_3 = 0 \rightarrow 0.625v_1 = v_3\\
+v_2 - 2.5v_3 = 0 \rightarrow 0.4v_2 = v_3 \\
+v_3 = t
+\\
+E_6 = t \begin{bmatrix}0.625\\0.4\\0\end{bmatrix}
 $$
 ```{r}
 A = matrix(c(1,2,3,0,4,5,0,0,6),nrow=3,byrow=TRUE)
@@ -171,4 +238,14 @@ eigen(A)
 B = matrix(c(0,-2,-3,0,-3,-5,0,0,-5),nrow=3,byrow=TRUE)
 B
 pracma::rref(B)
+
+
+C = matrix(c(3,-2,-3,0,0,-5,0,0,0),nrow=3,byrow=TRUE)
+C
+pracma::rref(C)
+
+
+D = matrix(c(5,-2,-3,0,2,-5,0,0,0),nrow=3,byrow=TRUE)
+D
+pracma::rref(D)
 ```
