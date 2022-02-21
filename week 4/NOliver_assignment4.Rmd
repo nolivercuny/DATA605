@@ -33,19 +33,16 @@ for (i in 1:length(files)) {
 }
 ```
 ```{r}
-faces <- data.frame(x = data)
+faces <- data.frame(x = t(data))
 
 ```
 
 ```{r}
 scaled <- scale(faces, center = TRUE, scale = TRUE)
-mean.face <- attr(scaled, "scaled:center")
-std.face  <- attr(scaled, "scaled:scale")
 ```
 
 ```{r}
-sig <- cov(scaled)
-
+sig <- cov(faces)
 ```
 
 ```{r}
@@ -55,11 +52,12 @@ eigenvectors <- eig$vectors
 ```
 
 ```{r}
-scaling_shoes = diag(eigenvalues[1:3]^(-1/2)) / (sqrt(nrow(scaled)-1))
-eigen_shoes = scaled%*%eigenvectors[,1:3]%*%scaling_shoes
-eigenimage <- array(eigen_shoes[,3], c(120,250))
+scaling_shoes = diag(eigenvalues[1:17]^(-1/2)) / (sqrt(nrow(scaled)-1))
+eigen_shoes = scaled%*%eigenvectors[,1:17]%*%scaling_shoes
 ```
 
 ```{r}
-imageShow(eigenimage)
+  eigenimage <- array(eigen_shoes[,3], c(120,250))  
+  imageShow(eigenimage)
 ```
+
