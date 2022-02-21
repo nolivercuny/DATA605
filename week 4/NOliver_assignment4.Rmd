@@ -10,3 +10,56 @@ editor_options:
 ---
 
 With the attached data file, build and visualize  eigenimagery that accounts for 80% of the variability.  Provide full R code and discussion.
+
+```{r}
+library(jpeg)
+library(OpenImageR)
+library(dplyr)
+```
+
+```{r}
+basePath <- '/Users/t0pth4t/Downloads/CUNY/DATA605/data605/week 4/jpg/'
+files <- list.files('/Users/t0pth4t/Downloads/CUNY/DATA605/data605/week 4/jpg')
+data <- matrix(0, length(files), 90000) 
+```
+```{r}
+for (i in 1:length(files)) {
+  img <- readImage(paste0(basePath,files[i])) %>% resizeImage(120,250)
+  r  <- as.vector(img[,,1])
+  g  <- as.vector(img[,,2])
+  b  <- as.vector(img[,,3])
+  
+  data[i,] <- t(c(r, g, b))
+}
+```
+```{r}
+faces <- data.frame(x = data)
+
+```
+
+```{r}
+scaled <- scale(faces, center = TRUE, scale = TRUE)
+mean.face <- attr(scaled, "scaled:center")
+std.face  <- attr(scaled, "scaled:scale")
+```
+
+```{r}
+sig <- cov(scaled)
+
+```
+
+```{r}
+eig <- eigen(sig)
+eigenvalues  <- eig$values
+eigenvectors <- eig$vectors
+```
+
+```{r}
+scaling_shoes = diag(eigenvalues[1:3]^(-1/2)) / (sqrt(nrow(scaled)-1))
+eigen_shoes = scaled%*%eigenvectors[,1:3]%*%scaling_shoes
+eigenimage <- array(eigen_shoes[,3], c(120,250))
+```
+
+```{r}
+imageShow(eigenimage)
+```
