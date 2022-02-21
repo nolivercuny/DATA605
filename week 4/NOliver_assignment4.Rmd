@@ -12,19 +12,17 @@ editor_options:
 With the attached data file, build and visualize  eigenimagery that accounts for 80% of the variability.  Provide full R code and discussion.
 
 ```{r}
-library(jpeg)
 library(OpenImageR)
-library(dplyr)
 ```
 
 ```{r}
 basePath <- '/Users/t0pth4t/Downloads/CUNY/DATA605/data605/week 4/jpg/'
 files <- list.files('/Users/t0pth4t/Downloads/CUNY/DATA605/data605/week 4/jpg')
-data <- matrix(0, length(files), 90000) 
+data <- matrix(0, length(files), prod(c(1200,2500,3))) 
 ```
 ```{r}
 for (i in 1:length(files)) {
-  img <- readImage(paste0(basePath,files[i])) %>% resizeImage(120,250)
+  img <- readImage(paste0(basePath,files[i])) 
   r  <- as.vector(img[,,1])
   g  <- as.vector(img[,,2])
   b  <- as.vector(img[,,3])
@@ -33,16 +31,13 @@ for (i in 1:length(files)) {
 }
 ```
 ```{r}
-faces <- data.frame(x = t(data))
-
+shoes <- data.frame(x = t(data))
 ```
-
 ```{r}
-scaled <- scale(faces, center = TRUE, scale = TRUE)
+scaled <- scale(shoes, center = TRUE, scale = TRUE)
 ```
-
 ```{r}
-sig <- cov(faces)
+sig <- cov(scaled)
 ```
 
 ```{r}
@@ -51,13 +46,36 @@ eigenvalues  <- eig$values
 eigenvectors <- eig$vectors
 ```
 
+## Evaluate the number of principal components needed to represent 80% Total variance.
+
 ```{r}
-scaling_shoes = diag(eigenvalues[1:17]^(-1/2)) / (sqrt(nrow(scaled)-1))
-eigen_shoes = scaled%*%eigenvectors[,1:17]%*%scaling_shoes
+eigsum <- sum(eigenvalues);
+csum <- 0
+k80 <- 0
+tv <- 0
+for(i in 1:17){
+   csum <- csum + eigenvalues[i]
+    tv <- csum / 17
+    print(tv)
+    if(tv > 0.80){
+      k80 <- i
+      break
+    }
+}
+k80
 ```
 
 ```{r}
-  eigenimage <- array(eigen_shoes[,3], c(120,250))  
+scaling_shoes <- diag(eigenvalues[1:k80]^(-1/2)) / (sqrt(nrow(scaled)-1))
+eigen_shoes <- scaled %*% eigenvectors[,1:k80] %*% scaling_shoes
+```
+
+```{r}
+  eigenimage <- array(eigen_shoes[,3], c(1200,2500,3))  
   imageShow(eigenimage)
 ```
 
+
+## References
+https://rpubs.com/dherrero12/543854
+https://en.wikipedia.org/wiki/Eigenface
