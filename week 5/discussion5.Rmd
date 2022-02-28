@@ -1,0 +1,58 @@
+---
+title: "DATA605 - Disc 5"
+author: "Nick Oliver"
+output:
+  pdf_document:
+    latex_engine: xelatex
+    extra_dependencies: ["geometry", "multicol", "multirow"]
+editor_options: 
+  chunk_output_type: console
+---
+
+# 7 A die is rolled until the first time T that a six turns up. 
+
+## (a) What is the probability distribution for T ?
+
+From Wikipedia[^1] "The geometric distribution gives the probability that the first occurrence of success requires k independent trials, each with success probability p. If the probability of success on each trial is p, then the probability that the kth trial (out of k trials) is the first success is $Pr(X=k)=(1-p)^{k-1}p$"
+
+Or as the book defines it $P(T = n) = q^{n−1}p$ where $q = 1 - p$
+
+
+
+Probability of rolling a six on a fair die is $Pr(6) = \frac{1}6$
+
+Plot using the density function
+```{r}
+plot(dgeom(1:25,1/6))
+```
+
+
+$$
+\\
+$$
+
+$$\\
+$$
+
+
+
+
+## (b) Find P (T > 3)
+
+$$P(T > 3) = (1 - \frac{1}{6})^{3 - 1}\frac{1}{6}$$
+```{r}
+((1 - (1/6)) ^ (4 -1)) * (1/6)
+dgeom(3, 1/6)
+```
+
+
+
+
+## (c) Find P (T > 6|T > 3)
+
+From the book $P(T >r+s|T > s) = q^s$ where $q=1-p$
+```{r}
+(1-(1/6))^3
+```
+
+[^1]:https://en.wikipedia.org/wiki/Geometric_distribution/

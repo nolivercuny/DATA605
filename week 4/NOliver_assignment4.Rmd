@@ -9,18 +9,30 @@ editor_options:
   chunk_output_type: console
 ---
 
+# Homework 4
+
+## Problem
+
 With the attached data file, build and visualize  eigenimagery that accounts for 80% of the variability.  Provide full R code and discussion.
 
+## Solution
+
+I borrowed heavily from Diego Herrero's Face Recognition using Eigenfaces[^1] and also used code from the Wikipedia page on Eigenfaces[^2]
+
+## Load Libraries
+
+Only using OpenImageR library to load images
 ```{r}
 library(OpenImageR)
 ```
 
+## Load images and extract data into a matrix
+
 ```{r}
-basePath <- '/Users/t0pth4t/Downloads/CUNY/DATA605/data605/week 4/jpg/'
-files <- list.files('/Users/t0pth4t/Downloads/CUNY/DATA605/data605/week 4/jpg')
+basePath <- '~/jpg/'
+files <- list.files('~/jpg')
 data <- matrix(0, length(files), prod(c(1200,2500,3))) 
-```
-```{r}
+
 for (i in 1:length(files)) {
   img <- readImage(paste0(basePath,files[i])) 
   r  <- as.vector(img[,,1])
@@ -30,16 +42,21 @@ for (i in 1:length(files)) {
   data[i,] <- t(c(r, g, b))
 }
 ```
+
+## Convert vectors into a dataframe
 ```{r}
 shoes <- data.frame(x = t(data))
 ```
+## scale and center
 ```{r}
 scaled <- scale(shoes, center = TRUE, scale = TRUE)
 ```
+## Calculate covariance
 ```{r}
 sig <- cov(scaled)
 ```
 
+## Compute eigenvectors and values
 ```{r}
 eig <- eigen(sig)
 eigenvalues  <- eig$values
@@ -66,16 +83,22 @@ k80
 ```
 
 ```{r}
-scaling_shoes <- diag(eigenvalues[1:k80]^(-1/2)) / (sqrt(nrow(scaled)-1))
-eigen_shoes <- scaled %*% eigenvectors[,1:k80] %*% scaling_shoes
+shoesScaled <- diag(eigenvalues[1:k80]^(-1/2)) / (sqrt(nrow(scaled)-1))
+eigenShoes <- scaled %*% eigenvectors[,1:k80] %*% shoesScaled
 ```
 
 ```{r}
-  eigenimage <- array(eigen_shoes[,3], c(1200,2500,3))  
+  eigenimage <- array(eigenShoes[,3], c(1200,2500,3))  
   imageShow(eigenimage)
 ```
 
 
 ## References
-https://rpubs.com/dherrero12/543854
-https://en.wikipedia.org/wiki/Eigenface
+
+1. https://rpubs.com/dherrero12/543854/
+
+2. https://en.wikipedia.org/wiki/Eigenface
+
+[^1]:https://rpubs.com/dherrero12/543854/
+
+[^2]:https://en.wikipedia.org/wiki/Eigenface
