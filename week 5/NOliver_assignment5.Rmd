@@ -20,8 +20,28 @@ meaning that, for those without the disease, 98% will be correctly reported as â
 is considered to be rare (albeit emerging), with about a .1% or .001 prevalence rate. Given the
 prevalence rate, sensitivity, and specificity estimates, what is the probability that an individual who is
 reported as positive by the new test actually has the disease? If the median cost (consider this the best
-point estimate) is about $100,000 per positive case total and the test itself costs $1000 per
+point estimate) is about $100,000 per positive case total and the test itself costs \$1000 per
 administration, what is the total first-year cost for treating 100,000 individuals?
+
+### what is the probability that an individual who is reported as positive by the new test actually has the disease?
+
+
+Found an equation for computing positive predictive value using sensitivity, prevalence, specificity 
+
+PPV = (Sensitivity * Prevalence)/[(Sensitivity * Prevalence) + ((1 - Specificity) * (1 - Prevalence))][^1]
+
+```{r}
+Sensitivity <- .96
+Prevalence <- .001
+Specificity <- .98
+ppv <- (Sensitivity * Prevalence)/((Sensitivity * Prevalence) + ((1 - Specificity) * (1 - Prevalence)))
+ppv * 100
+```
+
+### If the median cost (consider this the best point estimate) is about $100,000 per positive case total and the test itself costs \$1000 per administration, what is the total first-year cost for treating 100,000 individuals?
+
+The prevalence of .1% means in 100,000 individuals 100 would be expected to have the disease. Our test has a sensitivity of 96% so 96/100 of those individuals would be expected 
+
 ## 2. (Binomial).
 
 The probability of your organization receiving a Joint Commission inspection in any given
@@ -29,6 +49,31 @@ month is .05. What is the probability that, after 24 months, you received exactl
 the probability that, after 24 months, you received 2 or more inspections? What is the probability that
 your received fewer than 2 inspections? What is the expected number of inspections you should have
 received? What is the standard deviation?
+
+$P(k) = \binom{n}{k} p^k (1-p)^{n-k}$
+
+
+###  What is the probability that, after 24 months, you received exactly 2 inspections?
+```{r}
+dbinom(2, size=24, prob=0.05) 
+```
+### What is the probability that, after 24 months, you received 2 or more inspections?
+
+```{r}
+dbinom(4, size=48, prob=0.05) 
+```
+
+### What is the probability that your received fewer than 2 inspections?
+
+$P(x < 2) = P(x = 0) + P (x = 1)$
+
+```{r}
+pZero = dbinom(0, size=24, prob = 0.05)
+pOne = dbinom(1, size=24, prob = 0.05)
+print(paste(pZero,pOne, sep=' + '))
+pZero + pOne
+```
+
 ## 3. (Poisson). 
 
 You are modeling the family practice clinic and notice that patients arrive at a rate of 10 per
@@ -46,6 +91,7 @@ The supervisor sent 5 nurses and 1 non-nurse. If your subordinate acted innocent
 probability he/she would have selected five nurses for the trips? How many nurses would we have
 expected your subordinate to send? How many non-nurses would we have expected your subordinate to
 send?
+
 ## 5. (Geometric).
 
 The probability of being seriously injured in a car crash in an unspecified location is about
@@ -76,3 +122,5 @@ Based on previous studies, we know that the failure of most MRIs obeys an expone
 What is the expected failure time? What is the standard deviation? What is the probability that your
 MRI will fail after 8 years? Now assume that you have owned the machine for 8 years. Given that you
 already owned the machine 8 years, what is the probability that it will fail in the next two years? 
+
+[^1]:https://www.ncbi.nlm.nih.gov/books/NBK430867/#:~:text=PPV%20%3D%20(sensitivity%20x%20prevalence),x%20(1%20%E2%80%93%20prevalence))%20%5D
