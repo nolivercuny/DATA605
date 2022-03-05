@@ -11,57 +11,79 @@ editor_options:
 
 # Assignment 6
 
-1. A bag contains 5 green and 7 red jellybeans. How many ways can 5 jellybeans be
+## 1. A bag contains 5 green and 7 red jellybeans. How many ways can 5 jellybeans be
 withdrawn from the bag so that the number of green ones withdrawn will be less than
 2?
+
 Answer: _______________
-2. A certain congressional committee consists of 14 senators and 13 representatives. How
+
+## 2. A certain congressional committee consists of 14 senators and 13 representatives. How
 many ways can a subcommittee of 5 be formed if at least 4 of the members must be
 representatives?
 Answer: _______________
-3. If a coin is tossed 5 times, and then a standard six-sided die is rolled 2 times, and finally
+
+## 3. If a coin is tossed 5 times, and then a standard six-sided die is rolled 2 times, and finally
 a group of three cards are drawn from a standard deck of 52 cards without
 replacement, how many different outcomes are possible?
 
-4. 3 cards are drawn from a standard deck without replacement. What is the probability
+## 4. 3 cards are drawn from a standard deck without replacement. What is the probability
 that at least one of the cards drawn is a 3? Express your answer as a fraction or a
 decimal number rounded to four decimal places.
 Answer: _______________
-5. Lorenzo is picking out some movies to rent, and he is primarily interested in
+
+## 5. Lorenzo is picking out some movies to rent, and he is primarily interested in
 documentaries and mysteries. He has narrowed down his selections to 17
 documentaries and 14 mysteries.
-Step 1. How many different combinations of 5 movies can he rent?
+
+### Step 1. How many different combinations of 5 movies can he rent?
+
 Answer: _______________
-Step 2. How many different combinations of 5 movies can he rent if he wants at least
+
+### Step 2. How many different combinations of 5 movies can he rent if he wants at least
 one mystery?
+
 Answer: _______________
-6. In choosing what music to play at a charity fund raising event, Cory needs to have an
+
+## 6. In choosing what music to play at a charity fund raising event, Cory needs to have an
 equal number of symphonies from Brahms, Haydn, and Mendelssohn. If he is setting up
 a schedule of the 9 symphonies to be played, and he has 4 Brahms, 104 Haydn, and 17
 Mendelssohn symphonies from which to choose, how many different schedules are
 possible? Express your answer in scientific notation rounding to the hundredths place.
+
 Answer: ____________________
-7. An English teacher needs to pick 13 books to put on his reading list for the next school
+
+## 7. An English teacher needs to pick 13 books to put on his reading list for the next school
 year, and he needs to plan the order in which they should be read. He has narrowed
 down his choices to 6 novels, 6 plays, 7 poetry books, and 5 nonfiction books.
-Step 1. If he wants to include no more than 4 nonfiction books, how many different
+
+### Step 1. If he wants to include no more than 4 nonfiction books, how many different
 reading schedules are possible? Express your answer in scientific notation rounding to
 the hundredths place.
+
 Answer: ____________________
-Step 2. If he wants to include all 6 plays, how many different reading schedules are
+
+### Step 2. If he wants to include all 6 plays, how many different reading schedules are
 possible? Express your answer in scientific notation rounding to the hundredths place.
+
 Answer: ____________________
-8. Zane is planting trees along his driveway, and he has 5 sycamores and 5 cypress trees to
+
+## 8. Zane is planting trees along his driveway, and he has 5 sycamores and 5 cypress trees to
 plant in one row. What is the probability that he randomly plants the trees so that all 5
 sycamores are next to each other and all 5 cypress trees are next to each other?
 Express your answer as a fraction or a decimal number rounded to four decimal places.
+
 Answer: _______________
-9. If you draw a queen or lower from a standard deck of cards, I will pay you $4. If not, you
+
+## 9. If you draw a queen or lower from a standard deck of cards, I will pay you $4. If not, you
 pay me $16. (Aces are considered the highest card in the deck.)
-Step 1. Find the expected value of the proposition. Round your answer to two decimal
+
+### Step 1. Find the expected value of the proposition. Round your answer to two decimal
 places. Losses must be expressed as negative values.
+
 Answer: $_______________
-Step 2. If you played this game 833 times how much would you expect to win or lose?
+
+### Step 2. If you played this game 833 times how much would you expect to win or lose?
 Round your answer to two decimal places. Losses must be expressed as negative
 values.
+
 Answer: $_______________
