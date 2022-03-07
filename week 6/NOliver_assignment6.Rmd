@@ -101,7 +101,13 @@ a schedule of the 9 symphonies to be played, and he has 4 Brahms, 104 Haydn, and
 Mendelssohn symphonies from which to choose, how many different schedules are
 possible? Express your answer in scientific notation rounding to the hundredths place.
 
-Answer: ____________________
+If he needs an equal number from each Brahms, Haydn, and Mendelssohn and he is selecting 9 symphonies that means he needs to choose 3 from each.
+
+```{r}
+choose(4,3) * choose(104,3) * choose(17,3)
+```
+
+Answer: $4.95 \times 10^8$
 
 ## 7. An English teacher needs to pick 13 books to put on his reading list for the next school
 year, and he needs to plan the order in which they should be read. He has narrowed
@@ -110,6 +116,8 @@ down his choices to 6 novels, 6 plays, 7 poetry books, and 5 nonfiction books.
 ### Step 1. If he wants to include no more than 4 nonfiction books, how many different
 reading schedules are possible? Express your answer in scientific notation rounding to
 the hundredths place.
+
+
 
 Answer: ____________________
 
