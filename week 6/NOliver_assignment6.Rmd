@@ -117,21 +117,39 @@ down his choices to 6 novels, 6 plays, 7 poetry books, and 5 nonfiction books.
 reading schedules are possible? Express your answer in scientific notation rounding to
 the hundredths place.
 
+24 total books to choose from
 
+No more than means, number of ways to choose 0,1,2,3,4 nonfiction books
 
-Answer: ____________________
+```{r}
+choose(19,13) + choose(20, 13) + choose(21,13) + choose(22,13) + choose(23,13)
+```
+
+Answer: $1.95 \times 10^6$
 
 ### Step 2. If he wants to include all 6 plays, how many different reading schedules are
 possible? Express your answer in scientific notation rounding to the hundredths place.
 
-Answer: ____________________
+6 of your choices are pre-selected to be plays that leaves you with 7 choices left
+
+There are 18 books left to choose from since we already choose all 6 plays
+
+```{r}
+choose(18, 7)
+```
+
+Answer: $3.18 \times 10^4$
 
 ## 8. Zane is planting trees along his driveway, and he has 5 sycamores and 5 cypress trees to
 plant in one row. What is the probability that he randomly plants the trees so that all 5
 sycamores are next to each other and all 5 cypress trees are next to each other?
 Express your answer as a fraction or a decimal number rounded to four decimal places.
 
-Answer: _______________
+The probability of picking all sycamores first then all cypress is (5! * 5!)/10! = $\frac{1}{252}$
+
+Since the order doesn't matter you need to consider both sycamores first and cypress first $2 \times \frac{1}{252}$
+
+Answer: $\frac{1}{126}$
 
 ## 9. If you draw a queen or lower from a standard deck of cards, I will pay you $4. If not, you
 pay me $16. (Aces are considered the highest card in the deck.)
@@ -139,10 +157,21 @@ pay me $16. (Aces are considered the highest card in the deck.)
 ### Step 1. Find the expected value of the proposition. Round your answer to two decimal
 places. Losses must be expressed as negative values.
 
-Answer: $_______________
+Since Kings and Aces are highest you subtract them from the deck leaving 44 possible ways of winning
+
+```{r}
+4 * (44/52) - 16 * (8/52)
+```
+
+
+
+Answer: **0.9230769**
 
 ### Step 2. If you played this game 833 times how much would you expect to win or lose?
 Round your answer to two decimal places. Losses must be expressed as negative
 values.
 
-Answer: $_______________
+```{r}
+0.9230769 * 833
+```
+Answer: **Gain $768.92**
