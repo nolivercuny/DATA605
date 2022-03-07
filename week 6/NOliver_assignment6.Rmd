@@ -15,21 +15,54 @@ editor_options:
 withdrawn from the bag so that the number of green ones withdrawn will be less than
 2?
 
-Answer: _______________
+$$\binom{n}{k} = \frac{n!}{k!(n - k!)}$$
+Choosing less than 2 two green jellybeans out of five means we can either choose 0 green jellybeans and 5 red jellybeans or choose 1 green jellybean
+
+```{r}
+choose(5,0) * choose(7,5) +
+choose(5,1) * choose(7,4)
+```
+
+
+Answer: **196**
 
 ## 2. A certain congressional committee consists of 14 senators and 13 representatives. How
 many ways can a subcommittee of 5 be formed if at least 4 of the members must be
 representatives?
-Answer: _______________
+
+Since you the committee only consists of 5 members, and at least 4 must be representives, then there are two options, for the number of senators. 0 senators and 5 representitives or 1 senator and 4 representatives.
+
+```{r}
+choose(14,0) * choose(13,5) +
+choose(14,1) * choose(13,4)
+```
+
+
+Answer: **11,297**
 
 ## 3. If a coin is tossed 5 times, and then a standard six-sided die is rolled 2 times, and finally
 a group of three cards are drawn from a standard deck of 52 cards without
 replacement, how many different outcomes are possible?
 
+Coin toss -> two possible outcomes, 2 outcomes repeated 5 times is $2^5$
+Six-sided die -> 6 possible outcomes, 6 outcomes repeated 2 times is $6^2$
+Card selection -> 52 possible outcomes, 52 outcomes then 51 because one card is removed, then 50 because a second cards is removed
+
+```{r}
+2^5 * 6^2 * 52 * 51 * 50
+```
+
 ## 4. 3 cards are drawn from a standard deck without replacement. What is the probability
 that at least one of the cards drawn is a 3? Express your answer as a fraction or a
 decimal number rounded to four decimal places.
-Answer: _______________
+
+There are 4 total 3 cards in a deck of 52 cards, one for each suit. Computing the probability of choosing at least one 3 is equivilant to 1 - P(choosing no 3)
+
+$48/52 * 47/51 * 46/50$ = $\frac{4324}{5525}$
+
+$1 - \frac{4324}{5525}$ = $\frac{4324}{5525}$
+
+Answer: $1$
 
 ## 5. Lorenzo is picking out some movies to rent, and he is primarily interested in
 documentaries and mysteries. He has narrowed down his selections to 17
