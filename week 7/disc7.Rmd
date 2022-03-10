@@ -1,0 +1,47 @@
+---
+output:
+  pdf_document:
+    latex_engine: xelatex
+    extra_dependencies: ["geometry", "multicol", "multirow"]
+editor_options: 
+  chunk_output_type: console
+---
+
+# Discussion 7
+
+Page 203
+
+## 38 A manufactured lot of buggy whips has 20 items, of which 5 are defective. A random sample of 5 items is chosen to be inspected. Find the probability that the sample contains exactly one defective item
+
+### (a) if the sampling is done with replacement.
+
+**If the sampling is done with replacement this can be solved using binomial**
+
+$$P(X = k) = \binom{n}{k}p^k(1-p)^{n-k}$$
+```{r}
+p <- 5/20
+n <- 5
+k <- 1
+nChooseK <- factorial(n) / (factorial(k) * factorial(n -k))
+
+(nChooseK * p ^ k * (1 - p)^(n -k))
+#check answer
+dbinom(1,5,.25)
+```
+
+### (b) if the sampling is done without replacement.
+
+**Without replacement then we use a hypergeometric formula**
+
+$$P(X = k) = \frac{\binom{K}{k}\binom{K-k}{n-k}}{\binom{N}{n}}$$
+N is the population size, K is the number of success states in the population, n is the number of draws (i.e. quantity drawn in each trial), k is the number of observed successes.
+
+```{r}
+K <- 5
+k <- 1
+N <- 20
+n <- 5
+(choose(K,k) * choose(N - K,n - k)) / choose(N,n)
+#check answer
+dhyper(1,5,15,5)
+```
