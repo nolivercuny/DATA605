@@ -13,12 +13,123 @@ editor_options:
 
 ## 1. Let X1, X2, . . . , Xn be n mutually independent random variables, each of which is uniformly distributed on the integers from 1 to k. Let Y denote the minimum of the Xi's. Find the distribution of Y .
 
+
+
 ## 2. Your organization owns a copier (future lawyers, etc.) or MRI (future doctors). This machine has a manufacturer's expected lifetime of 10 years. This means that we expect one failure every ten years. (Include the probability statements and R Code for each part.).
 
 ### a. What is the probability that the machine will fail after 8 years?. Provide also the expected value and standard deviation. Model as a geometric. (Hint: the probability is equivalent to not failing during the first 8 years..)
 
+### Probability
+$$Pr(X = x) = (1-p)^{k}p$$
+```{r}
+geomProb <- (1 - (.1))^(8) * .1
+geomProb
+dgeom(8,.1)
+```
+
+Answer: **0.04304672**
+
+### Expected Value
+
+$$ E[X] = \frac{1}{p} $$
+```{r}
+1/geomProb
+```
+$$Std Dev = \frac{\sqrt{1-p}}{p}$$
+```{r}
+sqrt(1 - geomProb) / geomProb
+```
+
 ### b. What is the probability that the machine will fail after 8 years?. Provide also the expected value and standard deviation. Model as an exponential.
+
+### Probability
+
+$$Pr(X=k) = \lambda e^{-\lambda x }$$
+```{r}
+prob <- .1
+prob * exp(-prob * 8)
+dexp(8,.1)
+```
+Answer: **0.0449329**
+
+### Expected Value
+
+$$E[x] = \frac{1}{\lambda}$$
+```{r}
+1 / .1
+```
+
+Answer: **10**
+
+### Standard Deviation
+
+$$StdDev = \sqrt{\frac{1}{\lambda^2}}$$
+```{r}
+sqrt(1/(.1^2))
+```
+
+Answer: **10**
 
 ### c. What is the probability that the machine will fail after 8 years?. Provide also the expected value and standard deviation. Model as a binomial. (Hint: 0 success in 8 years)
 
+### Probability
+
+$$Pr(X = k) = \binom{n}{k}p^k(1-p)^{n-k}$$
+```{r}
+k <- 0
+prob <- 1/10
+n <- 8
+nCk <- choose(n,k)
+ (nCk * (prob ^ k)) * (1 - prob) ^ (n-k)
+dbinom(k,n,prob)
+```
+
+Answer: **0.4304672**
+
+### Expected Value
+
+$$E[x] = np$$
+
+Answer: **0.8**
+
+### Standard Deviation
+
+$$StdDev = \sqrt{np(1-p)}$$
+```{r}
+prob <- 1/10
+n <- 8
+sqrt(n * prob * ( 1 - prob))
+```
+Answer: **0.8485281**
+
 ### d. What is the probability that the machine will fail after 8 years?. Provide also the expected value and standard deviation. Model as a Poisson
+
+### Probability
+
+$$Pr(X=k) = \frac{\lambda^ke^{-\lambda}}{k!}$$
+```{r}
+k <- 0
+prob <- 1/10
+
+lambda <- 8 * prob / 1
+
+((lambda ^ k) * exp(-lambda))/factorial(k)
+dpois(0,.8)
+```
+
+Answer: **0.449329**
+
+### Expected Value
+
+$$E[X] = \lambda $$
+
+Answer: **0.8**
+
+### Standard Deviation
+
+$$StdDev = \sqrt{\lambda}$$
+```{r}
+sqrt(lambda)
+```
+Answer: **0.8944272**
+
