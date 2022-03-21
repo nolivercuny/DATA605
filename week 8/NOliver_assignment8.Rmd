@@ -1,0 +1,73 @@
+---
+title: "DATA605 - Assignment 8"
+author: "Nick Oliver"
+output:
+  pdf_document:
+    latex_engine: xelatex
+    extra_dependencies: ["geometry", "multicol", "multirow"]
+editor_options: 
+  chunk_output_type: console
+---
+
+# Assignment 8
+
+**11 A company buys 100 lightbulbs, each of which has an exponential lifetime of 1000 hours. What is the expected time for the first of these bulbs to burn out? (See Exercise 10.)**
+
+Exercise 10 asks to show that the density of the *minimum* value of a exponential distribution with a mean of $\mu$ is also exponential with a mean equal to $\frac{\mu}{n}$. $n$ is the number of independent random variables. 
+
+Exercise 11 states that 100 lightbulbs (n = 100) with an exponential lifetime of 1000 hours ($\mu$ = 1000) what is the expected time for the first bulb to burnout. Measuring when the first lightbulb of 100 lightbulbs is to burnout is equivalent to getting the mean of the minimum therefore $\frac{1000}{100} = 10$
+
+**14 Assume that X1 and X2 are independent random variables, each having an exponential density with parameter $\lambda$. Show that $Z = X_{1} − X2$ has density**
+$$fz(z) = (1/2)\lambda e^{-\lambda|z|}$$
+$fz(z)$ looks similar to the probability density function (PDF) for an exponential distribution which is $\lambda e^{{-\lambda x}}$
+
+From the text we know the density of the sum of two indepedent variables is the *convolution* of their indepdent PDFs
+ 
+**1 Let X be a continuous random variable with mean $\mu$ = 10 and variance $\sigma^2$ = 100/3. Using Chebyshev’s Inequality, find an upper bound for the following probabilities (pg. 320-321 of probability text).**
+
+Chebyshev’s Inequality
+$$\Pr(|X-\mu |\geq k\sigma )\leq {\frac {1}{k^{2}}}$$
+X	=	random variable
+
+$\mu$	=	10
+
+$\sigma$	=	100/3
+
+k	=	number of standard deviations from the mean
+
+
+**(a) P(|X−10| $\ge$ 2).**
+
+```{r}
+k <- 2 / (sqrt(100/3))
+1/k^2
+```
+
+P(|X−10| $\ge$ 2) $\le$ 8.333, because probability cannot be greater than one the upper bound is 1
+
+**(b) P(|X−10| $\ge$ 5). **
+
+```{r}
+k <- 5 / (sqrt(100/3))
+1/k^2
+```
+
+P(|X−10| $\ge$ 5) $\le$ 1.333, because probability cannot be greater than one the upper bound is 1
+
+**(c) P(|X−10| $\ge$ 9).**
+
+```{r}
+k <- 9 / (sqrt(100/3))
+1/k^2
+```
+
+P(|X−10| $\ge$ 9) $\le$ 0.4115226, the upper bound is 0.4115226
+
+**(d) P(|X − 10| $\ge$ 20).**
+
+```{r}
+k <- 20 / (sqrt(100/3))
+1/k^2
+```
+
+P(|X − 10| $\ge$ 20) $\le$ 0.08333, the upper bound is 0.08333

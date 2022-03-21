@@ -1,0 +1,72 @@
+---
+output:
+  prettydoc::html_pretty:
+    theme: hpstr
+    highlight: github
+editor_options: 
+  chunk_output_type: console
+---
+```{r set-options, echo=FALSE, cache=FALSE}
+options(width = 2000)
+```
+# Discussion 8
+
+Page 312
+
+**Excercise #3 Write a program to toss a coin 10,000 times. Let Sn be the number of heads in the first n tosses. Have your program print out, after every 1000 tosses, Sn − n/2. On the basis of this simulation, is it correct to say that you can expect heads about half of the time when you toss a coin a large number of times?**
+
+I chose to use both `sample` and `rbinom` as functions for generating a random number that simulates a coin flip. The $S_{n}$ value is calculated using `sample` and the $S_{x}$ is using `rbinom`
+
+```{r, warning=FALSE,message=FALSE}
+library(tidyverse)
+```
+```{r}
+set.seed(1234)
+coin <- c('heads','tails')
+n <- 1
+sn <- 0
+sx <- 0
+df <- data.frame(matrix(ncol = 5, nrow = 0))
+colnames(df) <- c('n', 'error', 'sn','binomError','sx')
+repeat {
+  # get a value of 'heads' or 'tails' using sample
+  result <- sample(coin,1, replace = TRUE, prob = c(.5,.5)) 
+  # get a value of 0 or 1 using rbinom
+  r <- rbinom(1,1,prob = .5)
+  
+  if(result == 'heads'){
+    sn <- sn + 1
+  }
+  if(r == 1){
+    sx <- sx + 1
+  }
+  error <- sn - (n/2)
+  binomError <- sx - (n /2)
+  
+  df<-df %>% add_row(n, error, sn,binomError,sx)
+  
+  if(n %% 1000 == 0){
+     print(paste('sn:',error, ' sx:', binomError))
+  }
+  
+  n <- n + 1
+  #break after 10,000 iterations
+  if(n > 10000){
+    break
+  }
+}
+
+ggplot(df, aes(n)) + 
+  geom_line(aes(y = error, colour = "sample error")) + 
+  geom_line(aes(y = binomError, colour = "binom error")) +
+  ylab('Sn - n/2')
+
+df <- df %>% mutate(rSn = sn / n) %>% mutate(rSx = sx / n)
+
+df %>% ggplot(aes(n)) + 
+  geom_line(aes(y=rSn, colour='ratio w/ sample')) + 
+  geom_line(aes(y=rSx, colour='ratio w/ binom')) + ylab('heads to tails ratio')
+```
+
+
+**Yes, though what I believe to be the "chance" factor calculated by the $S_{n} - \frac{n}{2}$ appears to oscillate wildly as demonstrated by my plot, the plot of the ratio of heads to tails shows that there is a rapid convergence towards 0.5 using both methods of generating a random number.**
