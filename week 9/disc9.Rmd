@@ -1,0 +1,63 @@
+---
+output:
+  prettydoc::html_pretty:
+    theme: hpstr
+    highlight: github
+editor_options: 
+  chunk_output_type: console
+---
+
+# Discussion 9
+
+Page 354 9.2 Problem #4
+
+4 Write a program to find the average of 1000 random digits 0, 1, 2, 3, 4, 5, 6, 7, 8, or 9. Have the program test to see if the average lies within three standard deviations of the expected value of 4.5. Modify the program so that it repeats this simulation 1000 times and keeps track of the number of times the test is passed. Does your outcome agree with the Central Limit Theorem?
+```{r, message=FALSE}
+library(tidyverse)
+```
+
+
+```{r}
+set.seed(123)
+randDigits <- sample(x = c(0:9), size = 1000, replace = TRUE)
+mean(randDigits)
+sd(randDigits)
+
+```
+
+```{r}
+ggplot(as.data.frame(randDigits)) + geom_density(aes(randDigits),fill="#69b3a2", color="#e9ecef", alpha=0.8)
+```
+
+```{r}
+df<-1000 %>%
+  rerun(sample(x=c(0:9), 1000, replace = T)) %>%
+  map_dfr(function(x) {data.frame(Mean=mean(x), sd=sd(x))})
+```
+```{r}
+df %>% ggplot() + geom_density(aes(Mean),fill="#69b3a2", color="#e9ecef", alpha=0.8)
+```
+
+```{r}
+
+xbar <- 1000 %>%
+  rerun(sample(x=c(0:9), 1000, replace = T)) %>% map(mean) %>% unlist
+
+
+mySD<-as.character( abs(as.integer((xbar - mean(xbar)) / sd(xbar) )))
+myDF<-data.frame(xbar,mySD)
+xAxis<-as.integer(max(abs(xbar)))
+mu<-round(mean(xbar),2)
+sd<-round(sd(xbar),2)
+myBin<-sd/10
+ggplot(myDF, aes(xbar)) +
+  geom_histogram(aes(fill = mySD), binwidth = myBin, col="black", size=.1) + 
+  labs(x="x", y="Frequency") + 
+  labs(title="Histogram of my sampled values",
+  subtitle=paste0(  "mean = ", mu, ", sd = ", sd, ", Sample size = ",1000,", nb of samples = ",1000))+
+  scale_x_continuous(breaks = seq(mu-sd*5, mu+sd*5, sd))+
+  theme_bw()+
+  theme(plot.title = element_text(hjust = 0.5))+
+  guides(fill=guide_legend(expression(sigma)))+
+  geom_density(aes(y=..count../90))
+```

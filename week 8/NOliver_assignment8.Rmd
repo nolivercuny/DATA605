@@ -17,11 +17,23 @@ Exercise 10 asks to show that the density of the *minimum* value of a exponentia
 
 Exercise 11 states that 100 lightbulbs (n = 100) with an exponential lifetime of 1000 hours ($\mu$ = 1000) what is the expected time for the first bulb to burnout. Measuring when the first lightbulb of 100 lightbulbs is to burnout is equivalent to getting the mean of the minimum therefore $\frac{1000}{100} = 10$
 
-**14 Assume that X1 and X2 are independent random variables, each having an exponential density with parameter $\lambda$. Show that $Z = X_{1} − X2$ has density**
-$$fz(z) = (1/2)\lambda e^{-\lambda|z|}$$
-$fz(z)$ looks similar to the probability density function (PDF) for an exponential distribution which is $\lambda e^{{-\lambda x}}$
+**Answer: 10**
 
-From the text we know the density of the sum of two indepedent variables is the *convolution* of their indepdent PDFs
+**14 Assume that X1 and X2 are independent random variables, each having an exponential density with parameter $\lambda$. Show that $Z = X_{1} − X_2$ has density**
+$$fz(z) = (1/2)\lambda e^{-\lambda|z|}$$
+$fz(z)$ looks similar to the probability density function (PDF) for an exponential distribution which is 
+
+From the text we know the density of the sum of two independent variables is the *convolution* of their independent PDFs
+
+The PDF if x $\ge$ 0 is $\lambda e^{{-\lambda x}}$ so if z > 0 
+
+
+$$fz(z) =\int _{-\infty}^{\infty}{fX_1(z- X_2)} fX_2(X_2)dX_2$$
+
+$$fz(z) =\int _{0}^{z}{\lambda e^{{-\lambda (z+X_2))}}}\lambda e^{{-\lambda -x_2}}dX_2$$
+ 
+ $$fz(z) =\int _{0}^{z}\lambda^2e^{-\lambda z}dX_2$$
+ 
  
 **1 Let X be a continuous random variable with mean $\mu$ = 10 and variance $\sigma^2$ = 100/3. Using Chebyshev’s Inequality, find an upper bound for the following probabilities (pg. 320-321 of probability text).**
 

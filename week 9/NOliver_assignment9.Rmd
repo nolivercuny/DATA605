@@ -1,0 +1,16 @@
+---
+title: "DATA605 - Assignment 9"
+author: "Nick Oliver"
+output:
+  pdf_document:
+    latex_engine: xelatex
+    extra_dependencies: ["geometry", "multicol", "multirow"]
+editor_options: 
+  chunk_output_type: console
+---
+
+# Assignment 9
+
+1. #11 page 363
+2. Calculate the expected value and variance of the binomial distribution using the moment generating function.
+3. Calculate the expected value and variance of the exponential distribution using the moment generating function.
