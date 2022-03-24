@@ -12,52 +12,70 @@ editor_options:
 Page 354 9.2 Problem #4
 
 4 Write a program to find the average of 1000 random digits 0, 1, 2, 3, 4, 5, 6, 7, 8, or 9. Have the program test to see if the average lies within three standard deviations of the expected value of 4.5. Modify the program so that it repeats this simulation 1000 times and keeps track of the number of times the test is passed. Does your outcome agree with the Central Limit Theorem?
-```{r, message=FALSE}
+
+```{r, message=FALSE, echo=FALSE}
 library(tidyverse)
 ```
 
+**Write a program to find the average of 1000 random digits 0, 1, 2, 3, 4, 5, 6, 7, 8, or 9. Have the program test to see if the average lies within three standard deviations of the expected value of 4.5**
+
+Standard deviation of sample mean is $\sigma \bar{x} = \frac{\sigma}{\sqrt{n}}$, where $\sigma$ is the standard deviation of the population and n is the sample size. 
+
+$\sigma$ = 3.02765
+
+n = 1000
+
+$\sigma \bar{x} \approx 0.095$ 
 
 ```{r}
 set.seed(123)
 randDigits <- sample(x = c(0:9), size = 1000, replace = TRUE)
-mean(randDigits)
-sd(randDigits)
-
+randDigitsMean <- mean(randDigits)
+withinThreeSD <- abs((randDigitsMean - 4.5) / 0.095) < 3
+paste0('Is ', randDigitsMean, ' within 3 standard deviations of the mean: ', withinThreeSD)
 ```
 
-```{r}
-ggplot(as.data.frame(randDigits)) + geom_density(aes(randDigits),fill="#69b3a2", color="#e9ecef", alpha=0.8)
-```
+**Modify the program so that it repeats this simulation 1000 times and keeps track of the number of times the test is passed.**
 
+Plotting code below was borrowed from <https://datakuity.com/2018/01/07/central-limit-theorem-example-using-r/>
 ```{r}
-df<-1000 %>%
+set.seed(42)
+randomDigitMeans <- 1000 %>%
   rerun(sample(x=c(0:9), 1000, replace = T)) %>%
-  map_dfr(function(x) {data.frame(Mean=mean(x), sd=sd(x))})
-```
-```{r}
-df %>% ggplot() + geom_density(aes(Mean),fill="#69b3a2", color="#e9ecef", alpha=0.8)
-```
+  map(mean) %>%
+  unlist
 
-```{r}
+df <- data.frame(randomDigitMeans)
 
-xbar <- 1000 %>%
-  rerun(sample(x=c(0:9), 1000, replace = T)) %>% map(mean) %>% unlist
+df <- df %>%
+  mutate(mySD = as.character( abs(as.integer((randomDigitMeans - mean(randomDigitMeans)) / sd(randomDigitMeans) ))))
 
+xAxis<-as.integer(max(abs(randomDigitMeans)))
+expectedMean<-4.5
+sd<-round(sd(randomDigitMeans),2)
 
-mySD<-as.character( abs(as.integer((xbar - mean(xbar)) / sd(xbar) )))
-myDF<-data.frame(xbar,mySD)
-xAxis<-as.integer(max(abs(xbar)))
-mu<-round(mean(xbar),2)
-sd<-round(sd(xbar),2)
-myBin<-sd/10
-ggplot(myDF, aes(xbar)) +
-  geom_histogram(aes(fill = mySD), binwidth = myBin, col="black", size=.1) + 
+df %>% ggplot(aes(randomDigitMeans)) +
+  geom_histogram(aes(fill = mySD), binwidth = sd/10, col="black", size=.1) + 
   labs(x="x", y="Frequency") + 
-  labs(title="Histogram of my sampled values",
-  subtitle=paste0(  "mean = ", mu, ", sd = ", sd, ", Sample size = ",1000,", nb of samples = ",1000))+
-  scale_x_continuous(breaks = seq(mu-sd*5, mu+sd*5, sd))+
+  labs(subtitle=paste0(  "mean = ", expectedMean, ", sd = ", sd, ", Sample size = ",1000,", # of samples = ",1000))+
+  scale_x_continuous(breaks = seq(expectedMean-sd*5, expectedMean+sd*5, sd))+
   theme_bw()+
   theme(plot.title = element_text(hjust = 0.5))+
   guides(fill=guide_legend(expression(sigma)))+
   geom_density(aes(y=..count../90))
 ```
+
+**Does your outcome agree with the Central Limit Theorem?**
+
+```{r, echo=FALSE}
+oneSd <- sum(df$mySD == '0')
+twoSd <- sum(df$mySD == '1')
+threeSd <- sum(df$mySD == '2')
+
+pSdOne <- scales::percent(oneSd / 1000,accuracy=.01)
+pSdTwo <- scales::percent((oneSd + twoSd) /1000,accuracy=.01)
+pSdThree <- scales::percent((oneSd+twoSd +threeSd)/1000,accuracy=.01)
+paste0('Distribution percentages:', pSdOne, '-', pSdTwo, '-', pSdThree)
+```
+
+Yes, it does agree with the Central Limit Theorem. The distribution of the sampled means approximates the normal distribution. It follows the 68%-95%-99.7% rule.
