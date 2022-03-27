@@ -50,8 +50,9 @@ pnorm(120 - y1, mu, sd, lower.tail = F)
 
 From Wikipedia the $M_{x}(t)$ for a binomial distribution is
 	$${\displaystyle \left(1-p+pe^{t}\right)^{n}}$$
-The mean is equal to the first derivative of the moment generating function at t=0 and the variance is equal to the second derivative of the moment generating function at t=0
+The mean is equal to the first derivative of the moment generating function at t=0 and the variance is equal to the second derivative of the moment generating function at t=0 minus the mean squared
 
+**Mean**
 $$
 \begin{split}
 \mu = M'(0) = n(1-p + pe^0)^{n-1}(pe)^0 \\
@@ -60,7 +61,7 @@ $$
 \end{split}
 $$
 
-variance
+**Variance**
 
 $$
 \begin{split}
@@ -80,6 +81,33 @@ $$
 
 From Wikipedia the $M_{x}(t)$ for a exponential distribution is
 
-$${\displaystyle \left(1-t\lambda ^{-1}\right)^{-1},~t<\lambda }$$
+$$
+{\displaystyle \left(1-t\lambda ^{-1}\right)^{-1},~t<\lambda } \\
+=\frac{\lambda}{\lambda-t}
+$$
 
-	The mean is equal to the first derivative of the moment generating function at t=0 and the variance is equal to the second derivative of the moment generating function at t=0
+The mean is equal to the first derivative of the moment generating function at t=0 and the variance is equal to the second derivative of the moment generating function at t=0 minus the mean squared
+
+**Mean**
+$$
+\begin{split}
+\mu = M'(0) = \frac{\lambda}{(\lambda-0)^2} \\
+= \frac{\lambda}{\lambda^2} \\
+= \frac{1}{\lambda}
+\end{split}
+$$
+
+**Variance**
+
+$$
+\begin{split}
+M''(0) = \frac{2\lambda}{(\lambda-0)^3} \\
+= \frac{2}{\lambda^2}
+\end{split}
+$$
+$$
+\begin{split}
+\sigma^2 = M''(0) - M'(0)^2 = \frac{2}{\lambda^2} - (\frac{1}{\lambda})^2 \\
+= \frac{1}{\lambda^2}
+\end{split}
+$$
