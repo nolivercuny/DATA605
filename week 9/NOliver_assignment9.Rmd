@@ -11,6 +11,75 @@ editor_options:
 
 # Assignment 9
 
-1. #11 page 363
-2. Calculate the expected value and variance of the binomial distribution using the moment generating function.
-3. Calculate the expected value and variance of the exponential distribution using the moment generating function.
+## 1. 11 page 363
+11 The price of one share of stock in the Pilsdorff Beer Company (see Exercise 8.2.12) is given by $Y_n$ on the nth day of the year. Finn observes that the differences $X_n = Y_{n+1} − Y_n$ appear to be independent random variables with a common distribution having mean $\mu = 0$ and variance $\sigma^2 = 1/4$. If $Y_1 = 100$, estimate the probability that $Y_{365}$ is
+
+```{r}
+n <- 364
+y1 <- 100
+variance  <- 1/4
+mu <- 0
+sd <- sqrt(n * variance)
+```
+
+**(a) $\ge$ 100.**
+
+$Pr(Y_{365} \ge 100) = 0.5$
+
+```{r}
+pnorm(100 - y1, mu, sd, lower.tail = F)
+```
+
+**(b) $\ge$ 110.**
+
+$Pr(Y_{365} \ge 110) = 0.1472537$
+
+```{r}
+pnorm(110 - y1, mu, sd, lower.tail = F)
+```
+
+**(c) $\ge$ 120.**
+
+$Pr(Y_{365} \ge 120) = 0.01801584$
+
+```{r}
+pnorm(120 - y1, mu, sd, lower.tail = F)
+```
+
+## 2. Calculate the expected value and variance of the binomial distribution using the moment generating function.
+
+From Wikipedia the $M_{x}(t)$ for a binomial distribution is
+	$${\displaystyle \left(1-p+pe^{t}\right)^{n}}$$
+The mean is equal to the first derivative of the moment generating function at t=0 and the variance is equal to the second derivative of the moment generating function at t=0
+
+$$
+\begin{split}
+\mu = M'(0) = n(1-p + pe^0)^{n-1}(pe)^0 \\
+= n(1-p+p)^{n-1}p(1) \\
+= np
+\end{split}
+$$
+
+variance
+
+$$
+\begin{split}
+M''(0) = n(1-p+pe^0)^{n-1}(pe^0)+(pe^0)n(n-1)(1-p+pe^0)^{n-2}pe^0 \\
+= n(1)^{n-1}p+pn(n-1)(1)^{n-2}p(1) \\
+= np + n^2p^2 - np^2
+\end{split}
+$$
+$$
+\begin{split}
+\sigma^2 = M''(0) - M'(0)^2 = np + n^2p^2-np^2 - np^2 \\
+= np + n^2p^2 - np^2 - n^2p^2 \\
+= np - np^2
+\end{split}
+$$
+## 3. Calculate the expected value and variance of the exponential distribution using the moment generating function.
+
+From Wikipedia the $M_{x}(t)$ for a exponential distribution is
+
+$${\displaystyle \left(1-t\lambda ^{-1}\right)^{-1},~t<\lambda }$$
+
+	The mean is equal to the first derivative of the moment generating function at t=0 and the variance is equal to the second derivative of the moment generating function at t=0
