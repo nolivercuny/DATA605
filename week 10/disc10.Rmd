@@ -1,0 +1,116 @@
+---
+output:
+  prettydoc::html_pretty:
+    theme: hpstr
+    highlight: github
+editor_options: 
+  chunk_output_type: console
+---
+
+# Discussion 10
+
+Page 422 11.2 Problem #6
+
+**6 In the Land of Oz example (Example 11.1), change the transition matrix by making R an absorbing state. This gives**
+
+$$
+P = \begin{array}{cc} &
+\begin{array}{ccc} R & N & S\end{array}
+\\
+\begin{array}{ccc}
+R \\
+N \\
+S\end{array}
+&
+\left(
+\begin{array}{ccc}
+1 & 1 & 0 \\
+1/2 & 0 & 1/2 \\
+1/4 & 1/4 & 1/2\end{array}
+\right)\end{array}
+$$
+**Find the fundamental matrix N, and also Nc and NR. Interpret the results.**
+
+
+1) Convert P to canonical form
+
+$$
+\begin{split}
+P ^n = \left(\begin{array}{c|c} 
+	Q & R\\ 
+	\hline 
+	0 & I 
+\end{array}\right) 
+\\
+=  \begin{array}{cc} &
+\begin{array}{ccc} N & S & R\end{array}
+\\
+\begin{array}{ccc}
+N \\
+S \\
+R\end{array}
+&
+\left(
+\begin{array}{cc|c}
+0 & 1/2 & 1/2 \\
+1/4 & 1/2 & 1/4 \\
+\hline
+0 & 0 & 1\end{array}
+\right)\end{array}
+\end{split}
+\\
+
+$$
+
+$$
+\begin{split}
+Q = \left(\begin{array}{cc} 
+	0 & 1/2\\ 
+	1/4 & 1/2
+\end{array}\right) 
+
+\\
+R = \left(\begin{array}{c} 
+	1/2\\ 
+	1/4
+\end{array}\right) 
+\end{split}
+$$
+
+3) According to the book $N = (I - Q)^{-1}$
+
+```{r}
+Q <- matrix(c(0,1/2,1/4,1/2), ncol = 2, byrow=TRUE)
+
+I <- diag(2)
+N <- solve(I - Q) 
+N
+```
+
+4) Computing Nc. According to the book c is a column vector whose entries are all equal to 1
+```{r}
+Nc <- N %*% matrix(c(1,1))
+Nc
+```
+
+5) Computing NR, using R from above
+```{r}
+R <- matrix(c( 0.5, 0.25 ), ncol = 1, byrow = TRUE)
+
+NR <- N %*% R
+NR
+```
+
+```{r}
+library(expm)
+P <- matrix(c(.50, .25, .25, .50, 0, .50, .25, .25, .50), ncol=3,nrow=3, byrow = TRUE) 
+n<- 10
+u1 <- c(0,1,0)
+
+compute_un <- function(n,u,P){
+  Pn <- P %^% n 
+  u %*% Pn
+}
+
+compute_un(10,u1,P)
+```
