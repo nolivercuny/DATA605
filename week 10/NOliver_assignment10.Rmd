@@ -1,5 +1,5 @@
 ---
-title: "DATA605 - Assignment 9"
+title: "DATA605 - Assignment 10"
 author: "Nick Oliver"
 output:
   pdf_document:
@@ -11,13 +11,76 @@ editor_options:
 
 # Assignment 10
 
-Page 424 11.2 Problem #13
+Smith is in jail and has 1 dollars; he can get out on bail if he has 8 dollars. A guard agrees to make a series of bets with him. If Smith bets A dollars, he wins A dollars with probability .4 and loses A dollars with probability .6. Find the probability that he wins 8 dollars before losing all of his money if
 
-13 Smith is in jail and has 3 dollars; he can get out on bail if he has 8 dollars. A guard agrees to make a series of bets with him. If Smith bets A dollars, he wins A dollars with probability .4 and loses A dollars with probability .6. Find the probability that he wins 8 dollars before losing all of his money if
-(a) he bets 1 dollar each time (timid strategy).
-(b) he bets, each time, as much as possible but not more than necessary to bring his fortune up to 8 dollars (bold strategy).
-(c) Which strategy gives Smith the better chance of getting out of jail?
+**(a) he bets 1 dollar each time (timid strategy).**
 
-https://rpubs.com/zachalexander/data605_hw10
-https://rstudio-pubs-static.s3.amazonaws.com/379780_4f311ef4520f46ab803b45bee06435dd.html
-https://rstudio-pubs-static.s3.amazonaws.com/595165_3532afe2ebaa483f9cdac6e3f89c2898.html
+A fit's the form of the Gambler's Ruin problem from the text "A gambler starts with a “stake” of size s. She plays until her capital reaches the value M or the value 0."
+
+s = 1
+M = 8
+
+$$
+q_z = \frac{\frac{q}{p}^z - 1} {\frac{q}{p}^M - 1}
+$$
+
+```{r}
+z <- 1
+M <- 8
+q <- .6
+p <- .4
+qz <- ((q/p)^z -1) / ((q/p)^M -1)
+qz
+```
+
+Answer: There is a 0.0203 probability that Smith wins the game without running out of money
+
+**(b) he bets, each time, as much as possible but not more than necessary to bring his fortune up to 8 dollars (bold strategy).**
+
+Using the bold strategy there are now only transition states
+
+Starting with one dollar:
+
+bets 1 dollar then .4 wins 1 dollar $\rightarrow$ 2 dollars || .6 loses 1 dollar $\rightarrow$ 0 dollars
+
+bets 2 dollars then .4 wins 2 dollars $\rightarrow$ 4 dollars || .6 loses 2 dollars $\rightarrow$ 0 dollars
+
+bets 4 dollars then .4 wins 4 dollars $\rightarrow$ 8 dollars || .6 loses 4 dollars $\rightarrow$ 0 dollars
+  
+You can model this with an absorbing state markov chain
+
+$$
+P = 
+\left(\begin{array}{ccccc} 
+	1 & 0 & 0 & 0 & 0 \\ 
+	0.6 & 0 & 0.4 & 0 & 0 \\
+	0.6 & 0 & 0 & 0.4 & 0 \\ 
+	0.6 & 0 & 0 & 0 & 0.4 \\
+	0 & 0 & 0 & 0 & 1
+\end{array}\right)
+$$
+
+You can use Theorem 11.2 from the book $u^{(n)} = uP^n$ where n = 3
+```{r, echo=FALSE, message=FALSE}
+library(expm)
+```
+```{r}
+#using library expm
+P <- matrix(c(
+  c(1,0,0,0,0),
+  c(0.6,0,0.4,0,0),
+  c(0.6,0,0,0.4,0),
+  c(0.6,0,0,0,0.4),
+  c(0,0,0,0,1)),nrow = 5, byrow=TRUE)
+P
+n <- 3
+u1 <- c(0,1,0,0,0)
+Pn <- P %^% n 
+u1 %*% Pn
+```
+
+Answer: There is a 0.064 probability that Smith ends up with 8 dollars before losing all his money
+
+**(c) Which strategy gives Smith the better chance of getting out of jail?**
+
+The bold strategy has a higher probability 
