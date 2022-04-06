@@ -13,40 +13,20 @@ editor_options:
 
 ```{r}
 library(tidyverse)
-library(digest)
+
 ```
 
 ```{r}
 loc <- 'Downloads/CUNY/DATA605/data605/week\ 11/data/'
-dailyUsageOne <- read.csv(paste0(loc,'daily_usage_minutes_all_1.csv'))
-dailyUsageTwo <- read.csv(paste0(loc,'daily_usage_minutes_all.csv'))
-
-gradeBookOne <- read.csv(paste0(loc,'gradebook_1.csv'))
-gradeBookTwo <- read.csv(paste0(loc,'gradebook.csv'))
-
-progressOne <- read.csv(paste0(loc,'progress_1.csv'))
-progressTwo <- read.csv(paste0(loc,'progress.csv'))
+df <- read.csv(paste0(loc,'student_data.csv'))
 ```
 
 ```{r}
-dailyUsage <- bind_rows(dailyUsageOne, dailyUsageTwo)
-gradeBook <- bind_rows(gradeBookOne, gradeBookTwo)
-progress <- bind_rows(progressOne, progressTwo)
+df <- df %>%
+  mutate(totalStudyTimeMinutes = rowSums(select(df,2:226),na.rm = T)) %>%
+  select(c(username, totalStudyTimeMinutes,starts_with("Unit.1.Quiz") | starts_with("Unit.2.Quiz") | starts_with("Unit.3.Quiz")))
+```
 
-studentDf <- dailyUsage %>% 
-  left_join(gradeBook) %>% 
-  left_join(progress) %>% 
-  select(-c(2:143)) %>%
-  distinct()
-
-studentDf %>%
-  slice(1:7) %>%
-  mutate(id = paste0('instructor_', digest(username, algo="md5", serialize=F)))
-
-studentDf %>%
-  slice(8:24) %>%
-  mutate(id = paste0('student_', digest(username, algo="md5", serialize=F)))
-
-studentDf <- studentDf %>% select(-username)
-studentDf %>% relocate(id)
+```{r}
+plot(df)
 ```
