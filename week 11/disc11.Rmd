@@ -11,30 +11,37 @@ editor_options:
 
 ## Student Data
 
-```{r}
+```{r, echo=FALSE, message=FALSE}
 library(tidyverse)
-
+library(kableExtra)
 ```
 
 ```{r}
-loc <- 'Downloads/CUNY/DATA605/data605/week\ 11/data/'
-df <- read.csv(paste0(loc,'student_data.csv'))
+df <- read.csv('https://raw.githubusercontent.com/nolivercuny/DATA605/main/week%2011/data/student_data.csv')
 ```
 
 ```{r}
 df <- df %>%
-  mutate(totalStudyTimeMinutes = rowSums(select(df,2:226),na.rm = T)) %>%
-  select(c(username, totalStudyTimeMinutes,starts_with("Unit.1.Quiz") | starts_with("Unit.2.Quiz") | starts_with("Unit.3.Quiz")))
-df <-   df %>% mutate(meanQuizScores = rowMeans(select(df,3:5),na.rm=T))
+  mutate(studyMinsSum = rowSums(select(df,2:226),na.rm = T)) %>%
+  select(c(username,
+           studyMinsSum,starts_with("Unit.1.Quiz") |
+             starts_with("Unit.2.Quiz") |
+             starts_with("Unit.3.Quiz")))
+df <- df %>%
+  mutate(quizMean = rowMeans(select(df,3:5),na.rm=T))
 ```
 
 ```{r}
-plot(df$meanQuizScores ~ df$totalStudyTimeMinutes)
+plot(df$quizMean ~ df$studyMinsSum, main="Effort vs. Scores",
+xlab="Total Work Time (m)", ylab="Mean Quiz Score")
+df %>% 
+  filter(!grepl("instructor",username)) %>%
+  kable()
 ```
-```{r}
-model <- lm(df$meanQuizScores ~ df$totalStudyTimeMinutes)
+```{r, warning=FALSE}
+model <- lm(df$quizMean ~ df$studyMinsSum)
 summary(model)
-ggplot(data = df, aes(x = totalStudyTimeMinutes, y = meanQuizScores)) +
+ggplot(data = df, aes(x = studyMinsSum, y = quizMean)) +
   geom_point() +
   stat_smooth(method = "lm", se = FALSE)
 ```
