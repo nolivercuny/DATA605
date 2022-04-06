@@ -25,8 +25,16 @@ df <- read.csv(paste0(loc,'student_data.csv'))
 df <- df %>%
   mutate(totalStudyTimeMinutes = rowSums(select(df,2:226),na.rm = T)) %>%
   select(c(username, totalStudyTimeMinutes,starts_with("Unit.1.Quiz") | starts_with("Unit.2.Quiz") | starts_with("Unit.3.Quiz")))
+df <-   df %>% mutate(meanQuizScores = rowMeans(select(df,3:5),na.rm=T))
 ```
 
 ```{r}
-plot(df)
+plot(df$meanQuizScores ~ df$totalStudyTimeMinutes)
+```
+```{r}
+model <- lm(df$meanQuizScores ~ df$totalStudyTimeMinutes)
+summary(model)
+ggplot(data = df, aes(x = totalStudyTimeMinutes, y = meanQuizScores)) +
+  geom_point() +
+  stat_smooth(method = "lm", se = FALSE)
 ```
