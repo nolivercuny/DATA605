@@ -1,0 +1,52 @@
+---
+output:
+  prettydoc::html_pretty:
+    theme: hpstr
+    highlight: github
+editor_options: 
+  chunk_output_type: console
+---
+
+# Discussion 11
+
+## Student Data
+
+```{r}
+library(tidyverse)
+library(digest)
+```
+
+```{r}
+loc <- 'Downloads/CUNY/DATA605/data605/week\ 11/data/'
+dailyUsageOne <- read.csv(paste0(loc,'daily_usage_minutes_all_1.csv'))
+dailyUsageTwo <- read.csv(paste0(loc,'daily_usage_minutes_all.csv'))
+
+gradeBookOne <- read.csv(paste0(loc,'gradebook_1.csv'))
+gradeBookTwo <- read.csv(paste0(loc,'gradebook.csv'))
+
+progressOne <- read.csv(paste0(loc,'progress_1.csv'))
+progressTwo <- read.csv(paste0(loc,'progress.csv'))
+```
+
+```{r}
+dailyUsage <- bind_rows(dailyUsageOne, dailyUsageTwo)
+gradeBook <- bind_rows(gradeBookOne, gradeBookTwo)
+progress <- bind_rows(progressOne, progressTwo)
+
+studentDf <- dailyUsage %>% 
+  left_join(gradeBook) %>% 
+  left_join(progress) %>% 
+  select(-c(2:143)) %>%
+  distinct()
+
+studentDf %>%
+  slice(1:7) %>%
+  mutate(id = paste0('instructor_', digest(username, algo="md5", serialize=F)))
+
+studentDf %>%
+  slice(8:24) %>%
+  mutate(id = paste0('student_', digest(username, algo="md5", serialize=F)))
+
+studentDf <- studentDf %>% select(-username)
+studentDf %>% relocate(id)
+```
