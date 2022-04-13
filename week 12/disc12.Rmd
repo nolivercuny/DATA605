@@ -1,0 +1,99 @@
+---
+title: "DATA 605 - Discussion 12"
+author: "Nick Oliver"
+output:
+  prettydoc::html_pretty:
+    theme: hpstr
+    highlight: github
+editor_options: 
+  chunk_output_type: console
+---
+
+# Discussion 12
+
+Using R, build a multiple regression model for data that interests you.  Include in this model at least one quadratic term, one dichotomous term, and one dichotomous vs. quantitative interaction term.  Interpret all coefficients. Conduct residual analysis.  Was the linear model appropriate? Why or why not?
+
+```{r, echo=FALSE, message=FALSE}
+library(tidyverse)
+library(kableExtra)
+library(performance)
+```
+## Loading Data
+```{r}
+df <- read.csv('https://raw.githubusercontent.com/nolivercuny/DATA605/main/week%2011/data/student_data.csv')
+```
+## Cleanup & Aggregation
+
+Filter out instructors, sum the minutes in the tool and get the mean of their quiz scores
+```{r}
+df <- df %>%
+  filter(!grepl("instructor",username))
+df <- df %>%
+  mutate(studyMinsSum = rowSums(select(df,2:226),na.rm = T)) %>%
+  select(c(username,
+           studyMinsSum,starts_with("Unit.1.Quiz") |
+             starts_with("Unit.2.Quiz") |
+             starts_with("Unit.3.Quiz")))
+df <- df %>%
+  mutate(quizMean = rowMeans(select(df,3:5),na.rm=T))
+```
+
+## Analysis
+
+Plotting students times vs scores and showing the raw data
+```{r}
+plot(df$quizMean ~ df$studyMinsSum, main="Effort vs. Scores",
+xlab="Total Work Time (m)", ylab="Mean Quiz Score")
+df %>% 
+  kable()
+```
+Use built in `lm` function to fit linear model. Summary shows a `p-value` of $\approx$ 0.68 which much greater than .05 which indicates the correlation is not statistically significant. 
+```{r, warning=FALSE}
+model <- lm(data=df, quizMean ~ studyMinsSum)
+summary(model)
+```
+Using ggplot and the `stat_smooth` there does appear to be a very slight positive correlation
+```{r, warning=FALSE}
+ggplot(data = df, aes(x = studyMinsSum, y = quizMean)) +
+  geom_point() +
+  stat_smooth(method = "lm", se = FALSE)
+```
+
+Residuals plot
+
+```{r}
+ res = resid(model)
+plot(df$studyMinsSum, res,
+     ylab="Residuals", xlab="Study Time")
+ abline(0, 0)                  # the horizon
+ggplot(data = df, aes(x = model$residuals)) +
+    geom_histogram(fill = 'steelblue', color = 'black', binwidth = 1) +
+    labs(title = 'Histogram of Residuals', x = 'Residuals', y = 'Frequency')
+```
+
+Shamelessly stealing the idea of using the `performance` library's `check_model` function as well.
+
+```{r}
+check_model(model)
+```
+
+## Summary
+Does it meet the conditions of linear regression?
+
+**Linearity: No. Based on the point plot there really does not appear to be a linear relationship.**
+
+**Nearly normal residuals: Yes. We can observe from the histogram plot of the residuals that their distribution sort of resembles the normal distribution**
+
+**Constant variability: Yes. We can observe from the scatter plot of the residuals that there is no pattern present which indicates that there is constant variability**
+
+**Independent observations: Yes. The study time and scores between individuals is independent**
+
+Is the linear model appropriate?
+
+**Hard to say. Doesn't seem to meet all the criteria of linear regression as I understand it. This is data from a single class of 17 students with only 3 quizzes taken so far. I think there probably just isn't enough data to draw any significant conclusions**
+
+```{r}
+cdf = read.csv('https://online.stat.psu.edu/stat462/sites/onlinecourses.science.psu.edu.stat462/files/data/poverty/index.txt', sep = '\t' )
+
+cor(cdf[,!(names(cdf) %in% c('Brth15to17','Brth18to19','TeenBrth','Location'))], cdf$TeenBrth)
+```

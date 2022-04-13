@@ -28,7 +28,10 @@ glimpse(cars)
 Use the `lm` function to fit a linear regression model
 ```{r}
 model <- lm(data = cars, dist ~ speed)
+model
 ```
+
+The function to predict the stopping distance is $StoppingDistinace = -17.579  + 3.932 \times speed$
 
 ### Visualizing the data
 
@@ -55,3 +58,31 @@ summary(model)
 
 Standard error at least five times to ten times smaller than corresponding coefficients?
 $3.9324 / 0.4155 \approx 9.464$ Yes it is about 9 times smaller
+
+The value of 1.49e-12 and the `***` on the p-value of speed indicates high significance of the speed or to put it another way an extremely low probability that the speed is not a good predictor of stopping distance. A 0.0123 value for the intercept indicates a very low probability that the intercept is not relevant as well.
+
+$R^2$ of 0.6511 indicates a good fitting model as it is relatively close to one.
+
+### Residual Analysis
+
+```{r}
+plot(fitted(model), resid(model))
+```
+
+Plotting the residuals vs. the input values does not show any obvious patterns which indicates that the variables used are sufficient to explain the relationship in the model.
+
+```{r}
+qqnorm(resid(model))
+qqline(resid(model))
+```
+
+We should expect to see the residuals follow a straight line but at the beginning and most certainly near the end the do not follow a straight line. This shows that the residuals may not be normally distributed.
+
+Plotting a histogram of the residuals shows similar results.
+
+This indicates there may be better construct a model the produces better predictions with tighter residual values. 
+```{r}
+ggplot(data = cars, aes(x = model$residuals)) +
+    geom_histogram(fill = 'steelblue', color = 'black', binwidth = 3) +
+    labs(title = 'Histogram of Residuals', x = 'Residuals', y = 'Frequency')
+```
