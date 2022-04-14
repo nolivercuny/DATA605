@@ -13,60 +13,68 @@ editor_options:
 
 Using R, build a multiple regression model for data that interests you.  Include in this model at least one quadratic term, one dichotomous term, and one dichotomous vs. quantitative interaction term.  Interpret all coefficients. Conduct residual analysis.  Was the linear model appropriate? Why or why not?
 
+I am using the state of delaware's open data set. The regression model is predicting the percentage of students who are proficient on the MATH portion of the "Smarter Balanced Summative Assessment" in 2021
+
+PctProficient: The percent of students who earned an achievement level considered proficient. This is the number of students who earned a proficient achievement level divided by the number of students who tested.
+
+https://data.delaware.gov/Education/Student-Assessment-Performance/ms6b-mt82
 ```{r, echo=FALSE, message=FALSE}
 library(tidyverse)
 library(kableExtra)
 library(performance)
+library(MASS)
 ```
 ## Loading Data
 ```{r}
-df <- read.csv('https://raw.githubusercontent.com/nolivercuny/DATA605/main/week%2011/data/student_data.csv')
+df <- read.csv('Downloads/CUNY/DATA605/data605/week\ 12/Filtered_Student_Assessment_Performance.csv')
+
 ```
 ## Cleanup & Aggregation
 
-Filter out instructors, sum the minutes in the tool and get the mean of their quiz scores
+This is a very large dataset (over 700k rows) I pre-filtered it so it is easier to work with. Removed all redacted data, data for the entire state, data without race and gender information and just data for the MATH assessment. 
+
+Dropping rows that add no extra information
+
 ```{r}
-df <- df %>%
-  filter(!grepl("instructor",username))
-df <- df %>%
-  mutate(studyMinsSum = rowSums(select(df,2:226),na.rm = T)) %>%
-  select(c(username,
-           studyMinsSum,starts_with("Unit.1.Quiz") |
-             starts_with("Unit.2.Quiz") |
-             starts_with("Unit.3.Quiz")))
-df <- df %>%
-  mutate(quizMean = rowMeans(select(df,3:5),na.rm=T))
+fdf <- df %>%
+  mutate(NonWhite = Race != 'White') %>% 
+  mutate(Male = Gender == 'Male') %>%
+  mutate(GradeNum = as.numeric(gsub("([0-9]+).*$", "\\1", Grade))) %>%
+  mutate(NonFosterCare = SpecialDemo == 'Non-Foster Care') %>%
+  mutate(NonLowIncome = SpecialDemo == 'Non Low-Income') %>%
+  mutate(LowIncome = SpecialDemo == 'Low-Income') %>%
+  mutate(ActiveEL = SpecialDemo == 'Active EL Students') %>%
+  mutate(NonHomeless = SpecialDemo == 'Non-Homeless') %>%
+  mutate(NonELStudents = SpecialDemo == 'Non-EL Students') %>%
+  mutate(Disabilities = SpecialDemo == 'Students with Disabilities') %>%
+  mutate(MilitaryConnected = SpecialDemo == 'Military Connected Youth') %>%
+  dplyr::select(NonWhite,Male,GradeNum,NonFosterCare,NonLowIncome,LowIncome,ActiveEL,NonHomeless,NonELStudents,Disabilities,MilitaryConnected,Tested,PctProficient)
+ 
+glimpse(fdf)
 ```
 
 ## Analysis
 
-Plotting students times vs scores and showing the raw data
-```{r}
-plot(df$quizMean ~ df$studyMinsSum, main="Effort vs. Scores",
-xlab="Total Work Time (m)", ylab="Mean Quiz Score")
-df %>% 
-  kable()
-```
+
 Use built in `lm` function to fit linear model. Summary shows a `p-value` of $\approx$ 0.68 which much greater than .05 which indicates the correlation is not statistically significant. 
 ```{r, warning=FALSE}
-model <- lm(data=df, quizMean ~ studyMinsSum)
+model <- lm(data=fdf, PctProficient ~ NonWhite+Male+GradeNum+NonFosterCare+NonLowIncome+LowIncome+ActiveEL+NonHomeless+NonELStudents+Disabilities+MilitaryConnected+Tested)
 summary(model)
 ```
-Using ggplot and the `stat_smooth` there does appear to be a very slight positive correlation
-```{r, warning=FALSE}
-ggplot(data = df, aes(x = studyMinsSum, y = quizMean)) +
-  geom_point() +
-  stat_smooth(method = "lm", se = FALSE)
-```
 
+I expeirmented with the `stepAIC` function from the `MASS` library which can do both backward and forward predictor elimination using the Akaike Information Criterion (AIC) to compare the fit of the model. Interestingly it appears to drop the NonLowIncome and MilitaryConnected predictors. 
+```{r}
+stepModel <- stepAIC(model, direction = 'both')
+summary(stepModel)
+```
 Residuals plot
 
 ```{r}
- res = resid(model)
-plot(df$studyMinsSum, res,
-     ylab="Residuals", xlab="Study Time")
+ res = resid(stepModel)
+plot(df$PctProficient, res,
+     ylab="Residuals", xlab="% Proficient")
  abline(0, 0)                  # the horizon
-ggplot(data = df, aes(x = model$residuals)) +
+ggplot(data = df, aes(x = stepModel$residuals)) +
     geom_histogram(fill = 'steelblue', color = 'black', binwidth = 1) +
     labs(title = 'Histogram of Residuals', x = 'Residuals', y = 'Frequency')
 ```
@@ -74,7 +82,7 @@ ggplot(data = df, aes(x = model$residuals)) +
 Shamelessly stealing the idea of using the `performance` library's `check_model` function as well.
 
 ```{r}
-check_model(model)
+check_model(stepModel)
 ```
 
 ## Summary
