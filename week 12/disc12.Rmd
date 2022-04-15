@@ -11,13 +11,12 @@ editor_options:
 
 # Discussion 12
 
-Using R, build a multiple regression model for data that interests you.  Include in this model at least one quadratic term, one dichotomous term, and one dichotomous vs. quantitative interaction term.  Interpret all coefficients. Conduct residual analysis.  Was the linear model appropriate? Why or why not?
-
-I am using the state of delaware's open data set. The regression model is predicting the percentage of students who are proficient on the MATH portion of the "Smarter Balanced Summative Assessment" in 2021
+I am using the state of Delaware's open data set. The regression model is predicting the percentage of students who are proficient on the MATH portion of the "Smarter Balanced Summative Assessment" in 2021
 
 PctProficient: The percent of students who earned an achievement level considered proficient. This is the number of students who earned a proficient achievement level divided by the number of students who tested.
 
-https://data.delaware.gov/Education/Student-Assessment-Performance/ms6b-mt82
+Soruce: https://data.delaware.gov/Education/Student-Assessment-Performance/ms6b-mt82
+
 ```{r, echo=FALSE, message=FALSE}
 library(tidyverse)
 library(kableExtra)
@@ -26,12 +25,13 @@ library(MASS)
 ```
 ## Loading Data
 ```{r}
-df <- read.csv('Downloads/CUNY/DATA605/data605/week\ 12/Filtered_Student_Assessment_Performance.csv')
+df <- read.csv('https://raw.githubusercontent.com/nolivercuny/DATA605/main/week%2012/Filtered_Student_Assessment_Performance.csv')
 
 ```
+
 ## Cleanup & Aggregation
 
-This is a very large dataset (over 700k rows) I pre-filtered it so it is easier to work with. Removed all redacted data, data for the entire state, data without race and gender information and just data for the MATH assessment. 
+This is a very large dataset (over 700k rows) I pre-filtered it so it is easier to work with. Removed all redacted data, removed data for the entire state, removed data without race and gender information and kept just data for the MATH assessment. 
 
 Dropping rows that add no extra information
 
@@ -55,18 +55,31 @@ glimpse(fdf)
 
 ## Analysis
 
-
-Use built in `lm` function to fit linear model. Summary shows a `p-value` of $\approx$ 0.68 which much greater than .05 which indicates the correlation is not statistically significant. 
+Use built in `lm` function to fit linear model. Summary shows a `p-value` of $\approx$ 2e-16 which much less than .05 which indicates the correlation is statistically significant. Also found out that `~ .` is shorthand for including all columns as predictors.
 ```{r, warning=FALSE}
-model <- lm(data=fdf, PctProficient ~ NonWhite+Male+GradeNum+NonFosterCare+NonLowIncome+LowIncome+ActiveEL+NonHomeless+NonELStudents+Disabilities+MilitaryConnected+Tested)
+model <- lm(data=fdf, PctProficient ~ .)
 summary(model)
 ```
 
-I expeirmented with the `stepAIC` function from the `MASS` library which can do both backward and forward predictor elimination using the Akaike Information Criterion (AIC) to compare the fit of the model. Interestingly it appears to drop the NonLowIncome and MilitaryConnected predictors. 
+I experimented with the `stepAIC` function from the `MASS` library which can do both backward and forward predictor elimination using the Akaike Information Criterion (AIC) to compare the fit of the model. Interestingly it appears to drop the NonLowIncome and MilitaryConnected predictors. 
 ```{r}
 stepModel <- stepAIC(model, direction = 'both')
 summary(stepModel)
 ```
+
+$$PctProficient = 55.202  -13.63248 \times NonWhiteTRUE \\ 
++ 2.11625 \times MaleTRUE \\
+- 1.78763  \times GradeNum \\
+-2.35069 \times NonFosterCareTRUE \\
+-12.83572 \times    LowIncomeTRUE \\
+-7.78963 \times   ActiveELTRUE \\
+-2.23635 \times NonHomelessTRUE  \\
+-3.33112 \times NonELStudentsTRUE \\
+-20.23805  \times DisabilitiesTRUE\\
+-0.09309  \times Tested$$
+
+What this means according to the data is you start at a baseline proficiency of 55.202% subtract for non-white, add for male, subtract for grade number, subtract if non-foster care, subtract if they are low income, subtract if they are active el, subtract if they are non-homeless, subtract if they are non-el, subtract if they are disabilities, and subtract based on the number of students tested.
+
 Residuals plot
 
 ```{r}
@@ -79,29 +92,15 @@ ggplot(data = df, aes(x = stepModel$residuals)) +
     labs(title = 'Histogram of Residuals', x = 'Residuals', y = 'Frequency')
 ```
 
-Shamelessly stealing the idea of using the `performance` library's `check_model` function as well.
+Using the `performance` library's `check_model` function as well.
 
 ```{r}
 check_model(stepModel)
 ```
 
 ## Summary
-Does it meet the conditions of linear regression?
-
-**Linearity: No. Based on the point plot there really does not appear to be a linear relationship.**
-
-**Nearly normal residuals: Yes. We can observe from the histogram plot of the residuals that their distribution sort of resembles the normal distribution**
-
-**Constant variability: Yes. We can observe from the scatter plot of the residuals that there is no pattern present which indicates that there is constant variability**
-
-**Independent observations: Yes. The study time and scores between individuals is independent**
 
 Is the linear model appropriate?
 
-**Hard to say. Doesn't seem to meet all the criteria of linear regression as I understand it. This is data from a single class of 17 students with only 3 quizzes taken so far. I think there probably just isn't enough data to draw any significant conclusions**
+**The linear model appears to be appropriate. The check model function and plot of the residuals indicates this is an appropriate model**
 
-```{r}
-cdf = read.csv('https://online.stat.psu.edu/stat462/sites/onlinecourses.science.psu.edu.stat462/files/data/poverty/index.txt', sep = '\t' )
-
-cor(cdf[,!(names(cdf) %in% c('Brth15to17','Brth18to19','TeenBrth','Location'))], cdf$TeenBrth)
-```
