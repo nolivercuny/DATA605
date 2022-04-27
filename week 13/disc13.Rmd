@@ -1,0 +1,53 @@
+---
+title: "DATA 605 - Discussion 13"
+author: "Nick Oliver"
+output:
+  prettydoc::html_pretty:
+    theme: hpstr
+    highlight: github
+editor_options: 
+  chunk_output_type: console
+---
+
+# Discussion 13
+
+Using R, provide the solution for any exercise in either Chapter 4 or Chapter 7 of the calculus textbook. 
+If you are unsure of your solution, post your concerns.
+
+14. A powerline is to be run to an offshore facility in the manner described in Example 4.3.3. The offshore facility is 5 miles at sea and 2 miles along the shoreline from the power plant. It costs \$50,000 per mile to lay a power line underground and $80,000 to run the line underwater.
+
+How much of the power line should be run underground to minimize the overall costs?
+
+Cost = 50,000 * land + 80,000 * water
+
+We choose $x$ to represent the distance on water, meaning the distance on land is 2 miles minus x
+
+$Cost(x) = 50000 \times (2 - x)  + 80000 \times \sqrt{x^2 + 5^2}$
+
+Find the minimum $Cost(2)$
+
+```{r}
+50000 * (2 - 2)  + 80000 * sqrt(2^2 + 5^2)
+```
+
+Find the maximum $Cost(0)$
+```{r}
+50000 * (2 - 0)  + 80000 * sqrt(0^2 + 5^2)
+```
+
+Find $Cost'(x)$
+```{r}
+cx <- expression(50000 * (2 - x)  + 80000 * sqrt(x^2 + 25))
+d <- D(cx, "x")
+d
+```
+$\frac{80000x}{\sqrt{25 + x^2}} -50000 = 0$
+
+Solving for $x \approx 4$
+
+Plug 4 in for c(x)
+
+```{r}
+(2 - 4)
+
+```
