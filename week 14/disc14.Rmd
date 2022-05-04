@@ -1,0 +1,58 @@
+---
+title: "DATA 605 - Discussion 14"
+author: "Nick Oliver"
+output:
+  prettydoc::html_pretty:
+    theme: hpstr
+    highlight: github
+editor_options: 
+  chunk_output_type: console
+---
+
+# Discussion 14 Section - 8.8 Exerecise 26 (pg 496)
+
+**In Exercises 25 – 30, use the Taylor series given in Key Idea 8.8.1 to create the Taylor series of the given functions.**
+
+26. $f(x) = e^{-x}$
+
+From 8.8.1 the Taylor series approximation of $e^x$ is
+
+$$
+e^x = \sum_{n=0}^{\infty} \frac{x^n}{n!} = 1 + x + \frac{x^2}{2!} + \frac{x^3}{3!} + ...
+$$
+
+$$
+e^{-x} = \sum_{n=0}^{\infty} \frac{-1^n}{n!}x^n = 1 - x + \frac{x^2}{2!} - \frac{x^3}{3!} + ...
+$$
+```{r}
+library(tidyverse)
+curve(expr = exp(1)^-x, -2,2, col='red')
+taylor <- function(x) {1-x + (x^2)/factorial(2)- (x^3)/factorial(3) + (x^4)/factorial(4) - (x^5)/factorial(5)}
+curve(taylor, -2,2, col='blue', add=T)
+```
+
+```{r}
+taylorSeries <- function(f){
+  function(x){
+    print(x)
+    print(f)
+    res <- 0
+    n <- 0
+    print(res)
+    while(n <= f){
+      print('in loop')
+      c <- ((-1 ^ n)/ factorial(n)) * x^n
+      print(c)
+      res <- res +  c
+      print(res)
+      print(x)
+      print(n)
+      n <- n + 1
+    }
+    print(res)
+    res
+  }
+}
+t1 <- taylorSeries(4)
+curve(t1, -2,2, col='blue')
+```

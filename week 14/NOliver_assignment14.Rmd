@@ -1,0 +1,14 @@
+---
+title: "DATA605 - Assignment 14"
+author: "Nick Oliver"
+output:
+  pdf_document:
+    latex_engine: xelatex
+    extra_dependencies: ["geometry", "multicol", "multirow"]
+editor_options: 
+  chunk_output_type: console
+---
+```{r, echo=FALSE, message=FALSE}
+library(tidyverse)
+```
+# Assignment 14
