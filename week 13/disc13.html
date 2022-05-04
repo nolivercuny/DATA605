@@ -145,30 +145,24 @@ a.sourceLine {
 
 <div id="discussion-13" class="section level1">
 <h1>Discussion 13</h1>
-<p>Using R, provide the solution for any exercise in either Chapter 4 or Chapter 7 of the calculus textbook. If you are unsure of your solution, post your concerns.</p>
-<ol start="14" style="list-style-type: decimal">
-<li>A powerline is to be run to an offshore facility in the manner described in Example 4.3.3. The offshore facility is 5 miles at sea and 2 miles along the shoreline from the power plant. It costs $50,000 per mile to lay a power line underground and $80,000 to run the line underwater.</li>
+<ol start="13" style="list-style-type: decimal">
+<li>A power line is to be run to an offshore facility in the manner described in Example 4.3.3. The offshore facility is 2 miles at sea and 5 miles along the shoreline from the power plant. It costs $50,000 per mile to lay a power line underground and $80,000 to run the line underwater.</li>
 </ol>
 <p>How much of the power line should be run underground to minimize the overall costs?</p>
 <p>Cost = 50,000 * land + 80,000 * water</p>
-<p>We choose <span class="math inline">\(x\)</span> to represent the distance on water, meaning the distance on land is 2 miles minus x</p>
-<p><span class="math inline">\(Cost(x) = 50000 \times (2 - x) + 80000 \times \sqrt{x^2 + 5^2}\)</span></p>
-<p>Find the minimum <span class="math inline">\(Cost(2)\)</span></p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dv">50000</span> <span class="sc">*</span> (<span class="dv">2</span> <span class="sc">-</span> <span class="dv">2</span>)  <span class="sc">+</span> <span class="dv">80000</span> <span class="sc">*</span> <span class="fu">sqrt</span>(<span class="dv">2</span><span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> <span class="dv">5</span><span class="sc">^</span><span class="dv">2</span>)</span></code></pre></div>
-<pre><code>## [1] 430813.2</code></pre>
-<p>Find the maximum <span class="math inline">\(Cost(0)\)</span></p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="dv">50000</span> <span class="sc">*</span> (<span class="dv">2</span> <span class="sc">-</span> <span class="dv">0</span>)  <span class="sc">+</span> <span class="dv">80000</span> <span class="sc">*</span> <span class="fu">sqrt</span>(<span class="dv">0</span><span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> <span class="dv">5</span><span class="sc">^</span><span class="dv">2</span>)</span></code></pre></div>
-<pre><code>## [1] 5e+05</code></pre>
+<p>We choose <span class="math inline">\(x\)</span> to represent the distance on water, meaning the distance on land is 5 miles minus x</p>
+<p><span class="math inline">\(Cost(x) = 50000 \times (5 - x) + 80000 \times \sqrt{x^2 + 2^2}\)</span></p>
 <p>Find <span class="math inline">\(Cost&#39;(x)\)</span></p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>cx <span class="ot">&lt;-</span> <span class="fu">expression</span>(<span class="dv">50000</span> <span class="sc">*</span> (<span class="dv">2</span> <span class="sc">-</span> x)  <span class="sc">+</span> <span class="dv">80000</span> <span class="sc">*</span> <span class="fu">sqrt</span>(x<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> <span class="dv">25</span>))</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">D</span>(cx, <span class="st">&quot;x&quot;</span>)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>d</span></code></pre></div>
-<pre><code>## 80000 * (0.5 * (2 * x * (x^2 + 25)^-0.5)) - 50000</code></pre>
-<p><span class="math inline">\(\frac{80000x}{\sqrt{25 + x^2}} -50000 = 0\)</span></p>
-<p>Solving for <span class="math inline">\(x \approx 4\)</span></p>
-<p>Plug 4 in for c(x)</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>(<span class="dv">2</span> <span class="sc">-</span> <span class="dv">4</span>)</span></code></pre></div>
-<pre><code>## [1] -2</code></pre>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>cx <span class="ot">&lt;-</span> <span class="fu">expression</span>(<span class="dv">50000</span> <span class="sc">*</span> (<span class="dv">5</span> <span class="sc">-</span> x)  <span class="sc">+</span> <span class="dv">80000</span> <span class="sc">*</span> <span class="fu">sqrt</span>(x<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> <span class="dv">4</span>))</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">D</span>(cx, <span class="st">&quot;x&quot;</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>d</span></code></pre></div>
+<pre><code>## 80000 * (0.5 * (2 * x * (x^2 + 4)^-0.5)) - 50000</code></pre>
+<p><span class="math inline">\(\frac{80000x}{\sqrt{x^2 + 4}} -50000 = 0\)</span></p>
+<p>Solving for x yields <span class="math inline">\(x \approx 1.6\)</span></p>
+<p>Find the minimum underground distance by simply subtracting 5 by 1.6</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>(<span class="dv">5</span> <span class="sc">-</span> <span class="fl">1.6</span>)</span></code></pre></div>
+<pre><code>## [1] 3.4</code></pre>
+<p><strong>Approximately 3.4 miles should be underground.</strong></p>
 </div>
 </div><!-- /.entry-content -->
 </article>
