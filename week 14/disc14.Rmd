@@ -20,39 +20,31 @@ From 8.8.1 the Taylor series approximation of $e^x$ is
 $$
 e^x = \sum_{n=0}^{\infty} \frac{x^n}{n!} = 1 + x + \frac{x^2}{2!} + \frac{x^3}{3!} + ...
 $$
-
+To create the Taylor series for $f(x) = e^{-x}$  replace $x$ with $-x$
 $$
-e^{-x} = \sum_{n=0}^{\infty} \frac{-1^n}{n!}x^n = 1 - x + \frac{x^2}{2!} - \frac{x^3}{3!} + ...
+e^{-x} = \sum_{n=0}^{\infty} \frac{-x^n}{n!} = 1 - x + \frac{x^2}{2!} - \frac{x^3}{3!} + ...
 $$
-```{r}
-library(tidyverse)
-curve(expr = exp(1)^-x, -2,2, col='red')
-taylor <- function(x) {1-x + (x^2)/factorial(2)- (x^3)/factorial(3) + (x^4)/factorial(4) - (x^5)/factorial(5)}
-curve(taylor, -2,2, col='blue', add=T)
-```
-
+I wrote a function to generate the Taylor series
 ```{r}
 taylorSeries <- function(f){
   function(x){
-    print(x)
-    print(f)
-    res <- 0
-    n <- 0
-    print(res)
+    res <- 1
+    n <- 1
     while(n <= f){
-      print('in loop')
-      c <- ((-1 ^ n)/ factorial(n)) * x^n
-      print(c)
-      res <- res +  c
-      print(res)
-      print(x)
-      print(n)
+      c <- (((-x)^n) / factorial(n))
+      res <- res + c
       n <- n + 1
     }
-    print(res)
     res
   }
 }
-t1 <- taylorSeries(4)
-curve(t1, -2,2, col='blue')
+```
+Plotting $e^{-x}$ in red then each approximation in darker shades of blue to visualize the approximation getting better
+```{r}
+curve(expr = exp(1)^-x, -2,2, col='red')
+for(i in 1:5){
+  t <- taylorSeries(i)
+  curve(t, -2,2, col=rgb(0,0,(51 * i)/255,.4),add=T)
+}
+
 ```
