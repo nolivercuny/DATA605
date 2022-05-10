@@ -12,3 +12,49 @@ editor_options:
 library(tidyverse)
 ```
 # Assignment 14
+
+1 This week, we'll work out some Taylor Series expansions of popular functions.
+For each function, only consider its valid ranges as indicated in the notes when you are computing the Taylor Series expansion.
+
+$f (x) = \frac{1}{(1-x)}$
+
+$$
+f (x) = \frac{1}{(1-x)} = \sum_{n=0}^{\infty} x^n = 1 + x + x^2 + x^3 + x^4 ...
+$$
+
+```{r}
+curve(1/(1-x),-5,5)
+curve(1 + x + x^2 + x^3 + x^4 + x^5 + x^6 + x^7, -5, 5, col='blue', add=T)
+```
+
+---
+
+$f (x) = e^x$
+
+$$
+f (x) = e^x = \sum_{n=0}^{\infty} \frac{x^n}{n!} = 1 + x + \frac{x^2}{2!} + \frac{x^3}{3!} + \frac{x^4}{4!} ...
+$$
+
+```{r}
+curve(exp(1)^x,-5,5)
+curve(1 + x + x^2/factorial(2) + x^3/factorial(3) + x^4/factorial(4), -5, 5, col='blue', add=T)
+```
+
+---
+
+$f(x) = ln(1 + x)$
+
+$$
+f(x) = ln(1 + x) = \sum_{n=1}^{\infty} \frac{-1^nx^n}{n} = x - \frac{x^2}{2} + \frac{x^3}{3} - \frac{x^4}{4} ...
+$$
+
+```{r}
+curve(log(1+x),-2,2)
+curve(x - (x^2)/2 + (x^3)/3 - (x^4)/4, -2, 2, col='blue', add=T)
+```
+
+---
+
+$f(x)=x^{\frac{1}{2}}$
+
+Taylor series for $x^{\frac{1}{2}}$ is undefined as the square root of x is not differentiable at 0.

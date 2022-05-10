@@ -1,0 +1,43 @@
+---
+title: "DATA 605 - Discussion 15"
+author: "Nick Oliver"
+output:
+  prettydoc::html_pretty:
+    theme: hpstr
+    highlight: github
+editor_options: 
+  chunk_output_type: console
+---
+
+# Discussion 15 Section - 12.3 Exerecise 15 (pg 711)
+
+**In Exercises 9 - 26, find fx, fy, fxx, fyy, fxy and fyx.**
+
+15. $f(x,y) = sin(x)cos(y)$
+```{r}
+fxy <- expression(sin(x) * cos(y))
+```
+fx
+```{r}
+D(fxy, 'x')
+```
+fy
+```{r}
+D(fxy, 'y')
+```
+fxx
+```{r}
+D(D(fxy, 'x'),'x')
+```
+fyy
+```{r}
+D(D(fxy, 'y'),'y')
+```
+fxy
+```{r}
+D(D(fxy, 'x'),'y')
+```
+fyx
+```{r}
+D(D(fxy, 'y'),'x')
+```
