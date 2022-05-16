@@ -58,3 +58,16 @@ curve(x - (x^2)/2 + (x^3)/3 - (x^4)/4, -2, 2, col='blue', add=T)
 $f(x)=x^{\frac{1}{2}}$
 
 Taylor series for $x^{\frac{1}{2}}$ is undefined as the square root of x is not differentiable at 0.
+
+
+```{r}
+x <- seq(0.01, 2.1, 0.01)
+y <- x
+m <- function(x,y){
+  7 * x * y / (exp(x^2 + y^2))
+}
+z <- outer(x,y,m)
+z
+x
+
+```

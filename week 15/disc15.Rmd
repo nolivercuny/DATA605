@@ -2,42 +2,45 @@
 title: "DATA 605 - Discussion 15"
 author: "Nick Oliver"
 output:
-  prettydoc::html_pretty:
-    theme: hpstr
-    highlight: github
+  pdf_document:
+    latex_engine: xelatex
+    extra_dependencies: ["geometry", "multicol", "multirow"]
 editor_options: 
   chunk_output_type: console
 ---
 
 # Discussion 15 Section - 12.3 Exerecise 15 (pg 711)
 
-**In Exercises 9 - 26, find fx, fy, fxx, fyy, fxy and fyx.**
+In Exercises 9 - 26, find $f_x$, $f_y$, $f_{xx}$, $f_{yy}$, $f_{xy}$ and $f_{yx}$.
 
 15. $f(x,y) = sin(x)cos(y)$
+
+**I used the `D` function to compute the partial derivatives with respect to x and/or y**
+
 ```{r}
-fxy <- expression(sin(x) * cos(y))
+f <- expression(sin(x) * cos(y))
 ```
-fx
+$f_x$
 ```{r}
-D(fxy, 'x')
+D(f, 'x')
 ```
-fy
+$f_y$
 ```{r}
-D(fxy, 'y')
+D(f, 'y')
 ```
-fxx
+$f_{xx}$
 ```{r}
-D(D(fxy, 'x'),'x')
+D(D(f, 'x'),'x')
 ```
-fyy
+$f_{yy}$
 ```{r}
-D(D(fxy, 'y'),'y')
+D(D(f, 'y'),'y')
 ```
-fxy
+$f_{xy}$
 ```{r}
-D(D(fxy, 'x'),'y')
+D(D(f, 'x'),'y')
 ```
-fyx
+$f_{yx}$
 ```{r}
-D(D(fxy, 'y'),'x')
+D(D(f, 'y'),'x')
 ```
