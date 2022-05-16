@@ -50,7 +50,7 @@ $\frac{\partial}{\partial{y}} =-12xy - 24y^2$
 
 Set derivatives equal to 0 to find critical points
 
-$ 0 = 24 - 6y^2 \rightarrow y = \pm 2$
+$0 = 24 - 6y^2 \rightarrow y = \pm 2$
 
 Solve for x when $y=2$
 
@@ -72,7 +72,30 @@ y<--2
 print(paste0('z=',24*x - 6 * x * y^2 - 8*y^3))
 ```
 
-***Critical points () and ()***
+***Critical points (-4,2,-64),(4,-2,64)***
+
+To find if local extrema you can use the second derivative test
+
+```{r}
+f <- expression(24*x - 6 * x * y^2 - 8*y^3)
+D(D(f,'x'),'x')
+D(D(f,'y'),'y')
+D(D(f,'x'),'y')
+```
+
+$f_{xx} = 0$
+
+$f_{yy} = -12x - 48y$
+
+$f_{xy} = -12y$
+
+$D = f_{xx} * f_{yy} - f_{xy}^2 = 0 * (-12x - 48y) - (12y)^2 = - 144y^2$
+
+$D = -144 * 2 ^2 = -576$
+
+$D = -144 * -2 ^ 2 = -576 $
+
+Because D is < 0 we conclude they are both saddle points
 
 ## 3.
 
@@ -80,7 +103,19 @@ A grocery store sells two brands of a product, the "house" brand and a "name" br
 
 Step 1. Find the revenue function $R(x,y)$.
 
+$R(x,y)$ is equal to the "house" brand revenue function times x plus the "name" brand revenue function times y
+
+$R(x,y) = (81 - 21x + 17)x + (40 + 11x - 23y)y$
+$= -21 x^2 + 28 x y + 81 x - 23 y^2 + 40 y$
+
 Step 2. What is the revenue if she sells the "house" brand for $2.30 and the "name" brand for $4.10?
+
+```{r}
+x <- 2.3
+y <- 4.1
+-21*x^2 + 28*x*y + 81*x - 23*y^2 + 40*y
+```
+**Answer: Revenue is $116.62**
 
 ## 4. 
 
@@ -88,9 +123,36 @@ A company has a plant in Los Angeles and a plant in Denver. The firm is committe
 product each week. The total weekly cost is given by $C(x, y) = \frac{1}{6}x^2 + \frac{1}{6}y^2 + 7x + 25y + 700$, where x is the number of
 units produced in Los Angeles and y is the number of units produced in Denver. How many units should be produced in each plant to minimize the total weekly cost?
 
+We know that 96 units total will be produced from two different plants, LA & Denver. Setting LA to x and Denver to y we get $96 = x + y$
+
+$x = 96 - y$ so we can rewrite the cost function as $C(96-y,y) = \frac{1}{6}(96-y)^2 + \frac{1}{6}y^2 + 7(96-y) + 25y + 700$ which reduces to $\frac{1}{3} (y^2 - 42 y + 8724)$
+
+Take the derivative
+```{r}
+D(expression(1/3*(y^2 - 42*y + 8724)),'y')
+```
+
+You get $1/3 * (2 * y - 42)$ set that equal to 0 and solve for y you get $y=21$
+
+To find x we simply enter 21 into previous equation $x = 96 - 21 \rightarrow x = 75$
+
+**Answer: LA produces 75 units and Denver produces 21 units**
+
 ## 5. 
 
 Evaluate the double integral on the given region.
    $$\iint_R (e^{8x+3y})dA;R:2\le x \le 4 and 2 \le y \le 4$$
   
 Write your answer in exact form without decimals.
+
+```{r}
+library(pracma)
+
+fun <- function(x,y) {exp(8*x + 3 *y)}
+xmin <- 2
+xmax <- 4
+ymin <- 2
+ymax <- 4
+
+integral2(fun, xmin, xmax, ymin, ymax)
+```
