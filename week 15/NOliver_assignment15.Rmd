@@ -45,7 +45,34 @@ D(f,'x')
 D(f,'y')
 ```
 
-24 - 6 * y^2
+$\frac{\partial}{\partial{x}} = 24 - 6y^2$
+$\frac{\partial}{\partial{y}} =-12xy - 24y^2$
+
+Set derivatives equal to 0 to find critical points
+
+$ 0 = 24 - 6y^2 \rightarrow y = \pm 2$
+
+Solve for x when $y=2$
+
+$0 =-12x*2 - 24*2^2 \rightarrow x = -4$
+
+Solve for x when $y=-2$
+
+$0 =(-12x*-2) - 24*(-2)^2 \rightarrow x = 4$
+
+Obtain z values by plugging in values for x,y
+
+```{r}
+x<--4
+y<-2
+print(paste0('z=',24*x - 6 * x * y^2 - 8*y^3))
+
+x<-4
+y<--2
+print(paste0('z=',24*x - 6 * x * y^2 - 8*y^3))
+```
+
+***Critical points () and ()***
 
 ## 3.
 
